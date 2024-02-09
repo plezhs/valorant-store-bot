@@ -140,5 +140,4 @@ async def on_message(msg):
     #     await msg.channel.send(f'{msg.author.mention} 누가 비속어 사용하래!', reference=msg)
     await bot.process_commands(msg)
 
-    
 bot.run("")

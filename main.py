@@ -26,6 +26,10 @@ intents.guilds = True
 intents.members = True
 time = datetime.datetime.now()
 
+rt =str(time)[0:10]
+with open(f'{rt}.log.txt', 'a') as f:
+    f.write(f"[{rt}]--------------------------------------------------\nBot Restarted\n--------------------------------------------------")
+
 global login
 login = dict()
 
@@ -56,7 +60,7 @@ def rint(min:int, max:int):
 @bot.command(aliases=["valshp","vs","valoshop","valorantshop","vlshop","ㅍ미놰ㅔ","valahop"])
 async def valshop(ctx,a=None,c=None):
     global login
-    if a == None or c == None or login.get(a)[0] == None or login.get(a)[1] == None:
+    if a == None or c == None or login.get(a) == None:
         await ctx.message.delete()
         await ctx.send(f"{ctx.message.author.mention} 사용법 : !valshop [NickName] [Your Region: na - North America, latam - Latin America, br -	Brazil, eu - Europe, ap - Asia Pacific, kr - Korea]")
     else:

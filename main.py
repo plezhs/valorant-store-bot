@@ -58,39 +58,46 @@ async def valshop(ctx,a=None,b=None,c=None):
         await ctx.send(f"{ctx.message.author.mention} 사용법 : !valshop [Riot ID] [Password] [Your Region: na - North America, latam - Latin America, br -	Brazil, eu - Europe, ap - Asia Pacific, kr - Korea]")
     else:
         await ctx.message.delete()
-        try:
-            await asyncio.create_task(m.store(a,b,c))
-            name = ctx.message.author.name
-            name = name.title()
-            embed1 = discord.Embed(timestamp=ctx.message.created_at, colour=discord.Colour.red(),description="",title=f"{m.re()[5]}'s\nValorant Shop 1st Offer")
-            embed1.set_image(url=m.url1)
-            embed1.set_thumbnail(url=m.re()[4])
-            embed1.add_field(name=m.re()[0][0],value=f"Price : {m.re()[0][1]}vp", inline=False) #inline이 False라면 다음줄로 넘깁니다.
+        if(c in ["kr","br","na","eu","latam","ap"]):
+            try:
+                await asyncio.create_task(m.store(a,b,c))
+                name = ctx.message.author.name
+                name = name.title()
+                embed1 = discord.Embed(timestamp=ctx.message.created_at, colour=discord.Colour.red(),description="",title=f"{m.re()[5]}'s\nValorant Shop 1st Offer")
+                embed1.set_image(url=m.url1)
+                embed1.set_thumbnail(url=m.re()[4])
+                embed1.add_field(name=m.re()[0][0],value=f"Price : {m.re()[0][1]}vp", inline=False) #inline이 False라면 다음줄로 넘깁니다.
 
-            embed2 = discord.Embed(timestamp=ctx.message.created_at, colour=discord.Colour.red(),description="",title=f"{m.re()[5]}'s\nValorant Shop 2nd Offer")
-            embed2.set_image(url=m.url2)
-            embed2.set_thumbnail(url=m.re()[4])
-            embed2.add_field(name=m.re()[1][0],value=f"Price : {m.re()[1][1]}vp", inline=False) #inline이 False라면 다음줄로 넘깁니다.
+                embed2 = discord.Embed(timestamp=ctx.message.created_at, colour=discord.Colour.red(),description="",title=f"{m.re()[5]}'s\nValorant Shop 2nd Offer")
+                embed2.set_image(url=m.url2)
+                embed2.set_thumbnail(url=m.re()[4])
+                embed2.add_field(name=m.re()[1][0],value=f"Price : {m.re()[1][1]}vp", inline=False) #inline이 False라면 다음줄로 넘깁니다.
 
-            embed3 = discord.Embed(timestamp=ctx.message.created_at, colour=discord.Colour.red(),description="",title=f"{m.re()[5]}'s\nValorant Shop 3rd Offer")
-            embed3.set_image(url=m.url3)
-            embed3.set_thumbnail(url=m.re()[4])
-            embed3.add_field(name=m.re()[2][0],value=f"Price : {m.re()[2][1]}vp", inline=False) #inline이 False라면 다음줄로 넘깁니다.
+                embed3 = discord.Embed(timestamp=ctx.message.created_at, colour=discord.Colour.red(),description="",title=f"{m.re()[5]}'s\nValorant Shop 3rd Offer")
+                embed3.set_image(url=m.url3)
+                embed3.set_thumbnail(url=m.re()[4])
+                embed3.add_field(name=m.re()[2][0],value=f"Price : {m.re()[2][1]}vp", inline=False) #inline이 False라면 다음줄로 넘깁니다.
 
-            embed4 = discord.Embed(timestamp=ctx.message.created_at, colour=discord.Colour.red(),description="",title=f"{m.re()[5]}'s\nValorant Shop 4th Offer")
-            embed4.set_image(url=m.url4)
-            embed4.set_thumbnail(url=m.re()[4])
-            embed4.add_field(name=m.re()[3][0],value=f"Price : {m.re()[3][1]}vp", inline=False) #inline이 False라면 다음줄로 넘깁니다.
-            await ctx.send(f"""{ctx.message.author.mention}""")
-            await ctx.send(embeds = [embed1,embed2,embed3,embed4])
+                embed4 = discord.Embed(timestamp=ctx.message.created_at, colour=discord.Colour.red(),description="",title=f"{m.re()[5]}'s\nValorant Shop 4th Offer")
+                embed4.set_image(url=m.url4)
+                embed4.set_thumbnail(url=m.re()[4])
+                embed4.add_field(name=m.re()[3][0],value=f"Price : {m.re()[3][1]}vp", inline=False) #inline이 False라면 다음줄로 넘깁니다.
+                await ctx.send(f"""{ctx.message.author.mention}""")
+                await ctx.send(embeds = [embed1,embed2,embed3,embed4])
+                rt =str(time)[0:10]
+                with open(f'{rt}.log.txt', 'a') as f:
+                    f.write(f"[{ctx.message.created_at}] {ctx.message.author} logged in Riot with 'Id : {a}', 'Region : {c}' and checked Valorant Shop Offers\n")
+            except:
+                await ctx.send(f"{ctx.message.author.mention}\nYou did something wrong.\nCheck your ID or Password or Region.\nThen retry again")
+                rt =str(time)[0:10]
+                with open(f'{rt}.log.txt', 'a') as f:
+                    f.write(f"[{ctx.message.created_at}] {ctx.message.author} issued problem : {m.re()}\n")
+        else:
+            await ctx.send("Region ERROR")
+            sdfs="Region ERROR"
             rt =str(time)[0:10]
             with open(f'{rt}.log.txt', 'a') as f:
-                f.write(f"[{ctx.message.created_at}] {ctx.message.author} logged in Riot with 'Id : {a}', 'Region : {c}' and checked Valorant Shop Offers\n")
-        except:
-            await ctx.send(f"{ctx.message.author.mention}\nYou did something wrong.\nCheck your ID or Password or Region.\nThen retry again")
-            rt =str(time)[0:10]
-            with open(f'{rt}.log.txt', 'a') as f:
-                f.write(f"[{ctx.message.created_at}] {ctx.message.author} issued problem : {m.re()}\n")
+                f.write(f"[{ctx.message.created_at}] {ctx.message.author} issued problem : {sdfs}\n")
         
 
 @bot.command(aliases=["mn","ㅜㅡ"])

@@ -156,8 +156,6 @@ async def store(username,password,region):
   a.append([skin4,getprice(skin1uuid)])
   a.append(playercardurl)
   a.append(userid)
-  if(region not in ["kr","br","na","eu","latam","ap"]):
-    a="Region ERROR"
   await session.close()
 
 def re():

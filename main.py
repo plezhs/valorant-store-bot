@@ -93,7 +93,7 @@ async def valshop(ctx,a=None,b=None,c=None):
                 with open(f'{rt}.log.txt', 'a') as f:
                     f.write(f"[{ctx.message.created_at}] {ctx.message.author} issued problem : {m.re()}\n")
         else:
-            await ctx.send("Region ERROR")
+            await ctx.send(f"{ctx.message.author.mention}\nRegion ERROR")
             sdfs="Region ERROR"
             rt =str(time)[0:10]
             with open(f'{rt}.log.txt', 'a') as f:

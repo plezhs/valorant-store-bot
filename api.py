@@ -159,7 +159,6 @@ async def store(username,password,region):
   if(region not in ["kr","br","na","eu","latam","ap"]):
     a=None
     a="Region ERROR"
-
   await session.close()
 
 def re():

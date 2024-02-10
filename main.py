@@ -87,7 +87,7 @@ async def valshop(ctx,a=None,b=None,c=None):
             with open(f'{rt}.log.txt', 'a') as f:
                 f.write(f"[{ctx.message.created_at}] {ctx.message.author} logged in Riot with 'Id : {a}', 'Region : {c}' and checked Valorant Shop Offers\n")
         except:
-            await ctx.send(f"{ctx.message.autor.mention}\nYou did something wrong.\nCheck your ID or Password or Region.\nThen retry again")
+            await ctx.send(f"{ctx.message.auttor.mention}\nYou did something wrong.\nCheck your ID or Password or Region.\nThen retry again")
             rt =str(time)[0:10]
             with open(f'{rt}.log.txt', 'a') as f:
                 f.write(f"[{ctx.message.created_at}] {ctx.message.author} issued problem : {m.re()}\n")

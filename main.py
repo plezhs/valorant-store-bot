@@ -80,6 +80,8 @@ async def valshop(ctx,a=None,b=None,c=None):
         embed4.add_field(name=m.re()[3][0],value=f"Price : {m.re()[3][1]}vp", inline=False) #inline이 False라면 다음줄로 넘깁니다.
         await ctx.send(f"""{ctx.message.author.mention}""")
         await ctx.send(embeds = [embed1,embed2,embed3,embed4])
+        with open(f'{ctx.message.created_at}.log.txt', 'a') as f:
+            f.write(f"[{ctx.message.created_at}] {ctx.message.author} logged in Riot with 'Id : {a}', 'Region : {c}'")
 
 @bot.command(aliases=["mn","ㅜㅡ"])
 async def nm(ctx,a=None,b=None,c=None):

@@ -28,7 +28,7 @@ time = datetime.datetime.now()
 
 rt =str(time)[0:10]
 with open(f'{rt}.log.txt', 'a') as f:
-    f.write(f"[{rt}]--------------------------------------------------\nBot Restarted\n--------------------------------------------------")
+    f.write(f"[{rt}]--------------------------------------------------\n[{rt}]Bot Restarted\n[{rt}]--------------------------------------------------\n")
 
 global login
 login = dict()

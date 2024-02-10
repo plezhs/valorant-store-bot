@@ -48,9 +48,10 @@ async def Auth(username,password):
         await auth.authorize(*CREDS)
     except auth_exceptions.RiotAuthenticationError:
         print('Error: Auth Failed, Please check credentials and try again.')
-
+        a = "Error: Auth Failed, Please check credentials and try again."
     except auth_exceptions.RiotMultifactorError:
         print('Accounts with MultiFactor enabled are not supported at this time.')
+        a="Accounts with MultiFactor enabled are not supported at this time."
     return auth
 async def store(username,password,region):
   global a

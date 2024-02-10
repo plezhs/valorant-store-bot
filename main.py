@@ -145,7 +145,7 @@ async def set(ctx,ID=None,Password=None,nickname=None):
             return
         else:
             if(login.get(nickname) == None):
-                login = {nickname:[ID,Password]}
+                login[nickname] = [ID,Password]
                 await ctx.send(f"Your Account registered.\nYou can login with '{nickname}' from now on.")
                 rt =str(time)[0:10]
                 with open(f'{rt}.log.txt', 'a') as f:

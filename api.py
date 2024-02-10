@@ -151,9 +151,9 @@ async def store(username,password,region):
   
   a=list()
   a.append([skin1,getprice(skin1uuid)])
-  a.append([skin2,getprice(skin1uuid)])
-  a.append([skin3,getprice(skin1uuid)])
-  a.append([skin4,getprice(skin1uuid)])
+  a.append([skin2,getprice(skin2uuid)])
+  a.append([skin3,getprice(skin3uuid)])
+  a.append([skin4,getprice(skin4uuid)])
   a.append(playercardurl)
   a.append(userid)
   await session.close()

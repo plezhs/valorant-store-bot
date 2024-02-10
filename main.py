@@ -86,18 +86,18 @@ async def valshop(ctx,a=None,b=None,c=None):
                 await ctx.send(embeds = [embed1,embed2,embed3,embed4])
                 rt =str(time)[0:10]
                 with open(f'{rt}.log.txt', 'a') as f:
-                    f.write(f"[{ctx.message.created_at}] {ctx.message.author} logged in Riot with 'Id : {a}', 'Region : {c}' and checked Valorant Shop Offers\n")
+                    f.write(f"[{ctx.message.created_at}] {ctx.message.author} logged in Riot with 'Id : {a}', 'Region : {c}' and checked Valorant Shop Offers. Used Server : {ctx.message.guild}\n")
             except:
                 await ctx.send(f"{ctx.message.author.mention}\nYou did something wrong.\nCheck your ID or Password or Region.\nThen retry again")
                 rt =str(time)[0:10]
                 with open(f'{rt}.log.txt', 'a') as f:
-                    f.write(f"[{ctx.message.created_at}] {ctx.message.author} issued problem : {m.re()}\n")
+                    f.write(f"[{ctx.message.created_at}] {ctx.message.author} issued problem : {m.re()}. Issued Server : {ctx.message.guild}\n")
         else:
             await ctx.send(f"{ctx.message.author.mention}\nRegion ERROR")
             sdfs="Region ERROR"
             rt =str(time)[0:10]
             with open(f'{rt}.log.txt', 'a') as f:
-                f.write(f"[{ctx.message.created_at}] {ctx.message.author} issued problem : {sdfs}\n")
+                f.write(f"[{ctx.message.created_at}] {ctx.message.author} issued problem : {sdfs}. Issued Server : {ctx.message.guild}\n")
         
 
 @bot.command(aliases=["mn","ㅜㅡ"])

@@ -99,7 +99,7 @@ async def store(username,password,region):
   temp = []
   async with session.post('https://auth.riotgames.com/userinfo', headers=headersa, json={}) as r:
       data = await r.json()
-  userid = data['acct']['game_name'] #+"#"+ data['acct']['tag_line']
+  userid = data['acct']['game_name'] +"#"+ data['acct']['tag_line']
 
   async with session.get('https://valorant-api.com/v1/weapons/skinlevels/'+ skin1uuid) as r:
     skin1 = json.loads(await r.text())['data']['displayName']

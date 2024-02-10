@@ -99,7 +99,6 @@ async def valshop(ctx,a=None,b=None,c=None):
             with open(f'{rt}.log.txt', 'a') as f:
                 f.write(f"[{ctx.message.created_at}] {ctx.message.author} issued problem : {sdfs}. Issued Server : {ctx.message.guild}\n")
         
-
 @bot.command(aliases=["mn","ㅜㅡ"])
 async def nm(ctx,a=None,b=None,c=None):
     if a ==None or b == None or c == None:

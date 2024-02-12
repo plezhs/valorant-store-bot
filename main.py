@@ -107,13 +107,13 @@ async def valshop(ctx,a=None,c=None):
                 f.write(f"[{time}] {ctx.message.author} issued problem : {sdfs}. Issued Server : {ctx.message.guild}. Issued Server ID : {ctx.message.guild.id}\n")
         
 @bot.command(aliases=["mn","ㅜㅡ"])
-async def nm(ctx,a=None,b=None,c=None):
-    if a ==None or b == None or c == None:
+async def nm(ctx,a=None,c=None):
+    if a ==None or c == None:
         await ctx.message.delete()
         await ctx.send(f"{ctx.message.author.mention} 사용법 : !nm [Riot ID] [Password] [Your Region: na - North America, latam - Latin America, br -	Brazil, eu - Europe, ap - Asia Pacific, kr - Korea]")
     else:
         await ctx.message.delete()
-        await asyncio.create_task(m.store(a,b,c))
+        await asyncio.create_task(m.store(login.get(a)[0],login.get(a)[1],c))
         embed = discord.Embed(timestamp=ctx.message.created_at, colour=discord.Colour.red(), title="Valorant Night Market", description=m.nightm())
         # embed.set_thumbnail(url="https://prforest.ga/files/img/홍보숲.png")
         # embed.add_field(name="필트 제목", value="필드 설명", inline=False) #inline이 False라면 다음줄로 넘깁니다.

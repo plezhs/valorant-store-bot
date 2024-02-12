@@ -92,14 +92,14 @@ async def store(username,password,region):
   skin4uuid = singleitems[3]
 
   async with session.get(f'https://pd.{region}.a.pvp.net/personalization/v2/players/{user_id}/playerloadout', headers=headers) as r:
-    data = json.loads(await r.text())
-  player = data.get('Identity')
+    pl = json.loads(await r.text())
+  player = pl.get('Identity')
   playercard = player['PlayerCardID']
 
   temp = []
   async with session.post('https://auth.riotgames.com/userinfo', headers=headersa, json={}) as r:
-      data = await r.json()
-  userid = data['acct']['game_name'] +"#"+ data['acct']['tag_line']
+      asd = await r.json()
+  userid = asd['acct']['game_name'] +"#"+ asd['acct']['tag_line']
 
   async with session.get('https://valorant-api.com/v1/weapons/skinlevels/'+ skin1uuid) as r:
     skin1 = json.loads(await r.text())['data']['displayName']

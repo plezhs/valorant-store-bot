@@ -27,7 +27,7 @@ intents.members = True
 time = datetime.datetime.now()
 
 rt =str(time)[0:10]
-with open(f'{rt}.log.txt', 'a') as f:
+with open(f'{rt}.log.txt', 'a',encoding='UTF-8') as f:
     f.write(f"[{time}]--------------------------------------------------\n[{time}]Bot Started\n[{time}]--------------------------------------------------\n")
 
 global login
@@ -92,18 +92,18 @@ async def valshop(ctx,a=None,c=None):
                 await ctx.send(f"""{ctx.message.author.mention}""")
                 await ctx.send(embeds = [embed1,embed2,embed3,embed4])
                 rt =str(time)[0:10]
-                with open(f'{rt}.log.txt', 'a') as f:
+                with open(f'{rt}.log.txt', 'a',encoding='UTF-8') as f:
                     f.write(f"[{time}] {ctx.message.author} logged in Riot with 'Id : {login.get(a)[0]}', 'Region : {c}' and checked Valorant Shop Offers. Used Server : {ctx.message.guild}. Issued Server ID : {ctx.message.guild.id}\n")
             except:
                 await ctx.send(f"{ctx.message.author.mention}\nYou did something wrong.\nCheck your ID or Password or Region.\nThen retry again")
                 rt =str(time)[0:10]
-                with open(f'{rt}.log.txt', 'a') as f:
+                with open(f'{rt}.log.txt', 'a',encoding='UTF-8') as f:
                     f.write(f"[{time}] {ctx.message.author} issued problem : {m.re()}. Issued Server : {ctx.message.guild}. Issued Server ID : {ctx.message.guild.id}\n")
         else:
             await ctx.send(f"{ctx.message.author.mention}\nRegion ERROR")
             sdfs="Region ERROR"
             rt =str(time)[0:10]
-            with open(f'{rt}.log.txt', 'a') as f:
+            with open(f'{rt}.log.txt', 'a',encoding='UTF-8') as f:
                 f.write(f"[{time}] {ctx.message.author} issued problem : {sdfs}. Issued Server : {ctx.message.guild}. Issued Server ID : {ctx.message.guild.id}\n")
         
 @bot.command(aliases=["mn","ㅜㅡ"])
@@ -152,12 +152,12 @@ async def set(ctx,ID=None,Password=None,nickname=None):
                 login[nickname] = [ID,Password]
                 await ctx.send(f"Your Account registered.\nYou can login with '{nickname}' from now on.")
                 rt =str(time)[0:10]
-                with open(f'{rt}.log.txt', 'a') as f:
+                with open(f'{rt}.log.txt', 'a',encoding='UTF-8') as f:
                     f.write(f"[{time}] {ctx.message.author} registered Riot Account with 'Id : {ID}', 'NickName : {nickname}'\n")
             else:
                 await ctx.send(f"{nickname} is already registerd by someone.\nRetry with other nickname.")
                 re = str(time)[0:10]
-                with open(f'{re}.log.txt', 'a') as f:
+                with open(f'{re}.log.txt', 'a',encoding='UTF-8') as f:
                     f.write(f"[{time}] {ctx.message.author} failed register account with {nickname} nickname.'\n")
 
 @bot.event

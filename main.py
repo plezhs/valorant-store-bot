@@ -148,31 +148,32 @@ async def nm(ctx,a=None,c=None):
         await ctx.send(f"{ctx.message.author.mention} 사용법 : !nm [Riot ID] [Password] [Your Region: na - North America, latam - Latin America, br -	Brazil, eu - Europe, ap - Asia Pacific, kr - Korea]")
     else:
         await ctx.message.delete()
-        await asyncio.create_task(m.store(login.get(a)[0],login.get(a)[1],c))
+        iii,ppp = getpass(a)
+        await asyncio.create_task(m.store(iii,ppp,c))
         embed = discord.Embed(timestamp=ctx.message.created_at, colour=discord.Colour.red(), title="Valorant Night Market", description=m.nightm())
         # embed.set_thumbnail(url="https://prforest.ga/files/img/홍보숲.png")
         # embed.add_field(name="필트 제목", value="필드 설명", inline=False) #inline이 False라면 다음줄로 넘깁니다.
         await ctx.send(f"{ctx.message.author.mention}",embed = embed)
 
 
-@bot.command(aliases=[""])
-async def brief(ctx,a=None,b=None,c=None):
-    if a ==None or b == None or c == None:
-        await ctx.message.delete()
-        await ctx.send(f"{ctx.message.author.mention} 사용법 : !nm [Riot ID] [Password] [Your Region: na - North America, latam - Latin America, br -	Brazil, eu - Europe, ap - Asia Pacific, kr - Korea]")
-    else:
-        await ctx.message.delete()
-        await asyncio.create_task(m.store(a,b,c))
-        embed1 = discord.Embed(timestamp=ctx.message.created_at, colour=discord.Colour.red(),description="",title=f"")
-        embed1.set_image(url=m.url1)
-        embed2 = discord.Embed(timestamp=ctx.message.created_at, colour=discord.Colour.red(),description="",title=f"")
-        embed2.set_image(url=m.url2)
-        embed3 = discord.Embed(timestamp=ctx.message.created_at, colour=discord.Colour.red(),description="",title=f"")
-        embed3.set_image(url=m.url3)
-        embed4 = discord.Embed(timestamp=ctx.message.created_at, colour=discord.Colour.red(),description="",title=f"")
-        embed4.set_image(url=m.url4)
-        await ctx.send(f"""{ctx.message.author.mention}""")
-        await ctx.send(embeds = [embed1,embed2,embed3,embed4])
+# @bot.command(aliases=[""])
+# async def brief(ctx,a=None,b=None,c=None):
+#     if a ==None or b == None or c == None:
+#         await ctx.message.delete()
+#         await ctx.send(f"{ctx.message.author.mention} 사용법 : !nm [Riot ID] [Password] [Your Region: na - North America, latam - Latin America, br -	Brazil, eu - Europe, ap - Asia Pacific, kr - Korea]")
+#     else:
+#         await ctx.message.delete()
+#         await asyncio.create_task(m.store(a,b,c))
+#         embed1 = discord.Embed(timestamp=ctx.message.created_at, colour=discord.Colour.red(),description="",title=f"")
+#         embed1.set_image(url=m.url1)
+#         embed2 = discord.Embed(timestamp=ctx.message.created_at, colour=discord.Colour.red(),description="",title=f"")
+#         embed2.set_image(url=m.url2)
+#         embed3 = discord.Embed(timestamp=ctx.message.created_at, colour=discord.Colour.red(),description="",title=f"")
+#         embed3.set_image(url=m.url3)
+#         embed4 = discord.Embed(timestamp=ctx.message.created_at, colour=discord.Colour.red(),description="",title=f"")
+#         embed4.set_image(url=m.url4)
+#         await ctx.send(f"""{ctx.message.author.mention}""")
+#         await ctx.send(embeds = [embed1,embed2,embed3,embed4])
 
 @bot.command()
 async def set(ctx,ID=None,Password=None,nickname=None):

@@ -20,6 +20,40 @@ from re import compile
 import os
 import api as m
 import datetime
+import a
+
+def wjson(id,password,nick,filename='db.json'):
+    with open(filename,'r+',encoding='UTF-8') as f:
+        file_data = json.load(f)
+        enc,decbook = a.makeCodebook(a.randomCodebook())
+        dec = {
+            
+        }
+        data = {
+            f"{nick}":{
+                f"{id}":f"{a.encrypt(password,enc)}",
+                f"{nick}":f"{id}",
+                "dec": decbook
+            }
+        }
+        file_data.update(data)
+        f.seek(0)
+        json.dump(file_data,f,indent=4)
+        print(file_data)
+        print(data)
+
+def getpass(nick):
+    with open('.\\db.json','r',encoding='UTF-8') as f:
+        data = json.load(f)
+        try:
+            dec = data[f'{nick}']['dec']
+            print(type(dec))
+            id = data[f'{nick}'][f'{nick}']
+            p = a.decrypt(data[f'{nick}'][id],dec)
+        except:
+            id = None
+            p = None
+        return id,p
 
 intents = discord.Intents.default()
 intents.guilds = True
@@ -60,14 +94,15 @@ def rint(min:int, max:int):
 @bot.command(aliases=["valshp","vs","valoshop","valorantshop","vlshop","ㅍ미놰ㅔ","valahop"])
 async def valshop(ctx,a=None,c=None):
     global login
-    if a == None or c == None or login.get(a) == None:
+    if a == None or c == None or getpass(a) == (None,None):
         await ctx.message.delete()
         await ctx.send(f"{ctx.message.author.mention} 사용법 : !valshop [NickName] [Your Region: na - North America, latam - Latin America, br -	Brazil, eu - Europe, ap - Asia Pacific, kr - Korea]")
     else:
         await ctx.message.delete()
         if(c in ["kr","br","na","eu","latam","ap"]):
             try:
-                await asyncio.create_task(m.store(login.get(a)[0],login.get(a)[1],c))
+                iii,ppp = getpass(a)
+                await asyncio.create_task(m.store(iii,ppp,c))
                 name = ctx.message.author.name
                 name = name.title()
                 embed1 = discord.Embed(timestamp=ctx.message.created_at, colour=discord.Colour.red(),description="",title=f"{m.re()[5]}'s\nValorant Shop 1st Offer")
@@ -93,7 +128,7 @@ async def valshop(ctx,a=None,c=None):
                 await ctx.send(embeds = [embed1,embed2,embed3,embed4])
                 rt =str(time)[0:10]
                 with open(f'{rt}.log.txt', 'a',encoding='UTF-8') as f:
-                    f.write(f"[{time}] {ctx.message.author} logged in Riot with 'Id : {login.get(a)[0]}', 'Region : {c}' and checked Valorant Shop Offers. Used Server : {ctx.message.guild}. Issued Server ID : {ctx.message.guild.id}\n")
+                    f.write(f"[{time}] {ctx.message.author} logged in Riot with 'Id : {iii}', 'Region : {c}' and checked Valorant Shop Offers. Used Server : {ctx.message.guild}. Issued Server ID : {ctx.message.guild.id}\n")
             except:
                 await ctx.send(f"{ctx.message.author.mention}\nYou did something wrong.\nCheck your ID or Password or Region.\nThen retry again")
                 rt =str(time)[0:10]
@@ -148,8 +183,8 @@ async def set(ctx,ID=None,Password=None,nickname=None):
         if ctx.guild:
             return
         else:
-            if(login.get(nickname) == None):
-                login[nickname] = [ID,Password]
+            if(getpass(nickname) == (None,None)):
+                wjson(ID,Password,nickname)
                 await ctx.send(f"Your Account registered.\nYou can login with '{nickname}' from now on.")
                 rt =str(time)[0:10]
                 with open(f'{rt}.log.txt', 'a',encoding='UTF-8') as f:

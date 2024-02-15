@@ -148,7 +148,21 @@ async def store(username,password,region):
     except KeyError:
       return None
   nm = nightmarket(data)
-  
+  if nm != None:
+    nm_uuid = list()
+    result = list()
+    for ghj in nm:
+      nm_uuid.append(f"{ghj['uuid']}")
+      nm_items = (f"{ghj['name']}")
+      nm_finalprice = (f"{ghj['price']['final']}")
+      nm_oringinalprice = (f"{ghj['price']['oringinal']}")
+      nm_discoount = (f"{ghj['price']['discount']}")
+      result.append([nm_items, nm_finalprice, nm_oringinalprice, nm_discoount])
+
+    nmskinurl = list()
+    for js in nm_uuid:
+      async with session.get('https://valorant-api.com/v1/weapons/skinlevels/'+ js) as r:
+        nmskinurl.append(json.loads(await r.text())['data']['displayIcon'])
   a=list()
   a.append([skin1,getprice(skin1uuid)])
   a.append([skin2,getprice(skin2uuid)])
@@ -156,20 +170,11 @@ async def store(username,password,region):
   a.append([skin4,getprice(skin4uuid)])
   a.append(playercardurl)
   a.append(userid)
+  a.append([result,nmskinurl])
   await session.close()
 
 def re():
    return a
-def nightm():
-   global nm
-   if nm != None:
-    nm_items = []
-
-    for item in nm:
-      nmitem_text = f"{item['name']} for {item['price']['final']} ({item['price']['oringinal']} with {item['price']['discount']}% discount) \n"
-      nm_items.append(nmitem_text)
-    result = '----------------------------------------------------------\n'.join(nm_items)
-    return result
 
 def url1():
   global url1

@@ -143,10 +143,40 @@ async def nm(ctx,nick=None,c=None):
         await ctx.message.delete()
         iii,ppp = getpass(nick)
         await asyncio.create_task(m.store(iii,ppp,c))
-        embed = discord.Embed(timestamp=ctx.message.created_at, colour=discord.Colour.red(), title="Valorant Night Market", description=m.nightm())
-        # embed.set_thumbnail(url="https://prforest.ga/files/img/홍보숲.png")
-        # embed.add_field(name="필트 제목", value="필드 설명", inline=False) #inline이 False라면 다음줄로 넘깁니다.
-        await ctx.send(f"{ctx.message.author.mention}",embed = embed)
+        name = ctx.message.author.name
+        name = name.title()
+        print(m.re()[6][0])
+        embed1 = discord.Embed(timestamp=ctx.message.created_at, colour=discord.Colour.red(),description="",title=f"{m.re()[5]}'s\nValorant Night Market 1st Offer")
+        embed1.set_image(url=m.re()[6][1][0])
+        embed1.set_thumbnail(url=m.re()[4])
+        embed1.add_field(name=m.re()[6][0][0][0],value=f"Price : {m.re()[6][0][0][1]}vp\nBasic Price : {m.re()[6][0][0][2]}\nDiscount : {m.re()[6][0][0][3]}%", inline=False) #inline이 False라면 다음줄로 넘깁니다.
+
+        embed2 = discord.Embed(timestamp=ctx.message.created_at, colour=discord.Colour.red(),description="",title=f"{m.re()[5]}'s\nValorant Night Market 2nd Offer")
+        embed2.set_image(url=m.re()[6][1][1])
+        embed2.set_thumbnail(url=m.re()[4])
+        embed2.add_field(name=m.re()[6][0][1][0],value=f"Price : {m.re()[6][0][1][1]}vp\nBasic Price : {m.re()[6][0][1][2]}\nDiscount : {m.re()[6][0][1][3]}%", inline=False) #inline이 False라면 다음줄로 넘깁니다.
+
+        embed3 = discord.Embed(timestamp=ctx.message.created_at, colour=discord.Colour.red(),description="",title=f"{m.re()[5]}'s\nValorant Night Market 3rd Offer")
+        embed3.set_image(url=m.re()[6][1][2])
+        embed3.set_thumbnail(url=m.re()[4])
+        embed3.add_field(name=m.re()[6][0][2][0],value=f"Price : {m.re()[6][0][2][1]}vp\nBasic Price : {m.re()[6][0][2][2]}\nDiscount : {m.re()[6][0][2][3]}%", inline=False) #inline이 False라면 다음줄로 넘깁니다.
+
+        embed4 = discord.Embed(timestamp=ctx.message.created_at, colour=discord.Colour.red(),description="",title=f"{m.re()[5]}'s\nValorant Night Market 4th Offer")
+        embed4.set_image(url=m.re()[6][1][3])
+        embed4.set_thumbnail(url=m.re()[4])
+        embed4.add_field(name=m.re()[6][0][3][0],value=f"Price : {m.re()[6][0][3][1]}vp\nBasic Price : {m.re()[6][0][3][2]}\nDiscount : {m.re()[6][0][3][3]}%", inline=False) #inline이 False라면 다음줄로 넘깁니다.
+
+        embed5 = discord.Embed(timestamp=ctx.message.created_at, colour=discord.Colour.red(),description="",title=f"{m.re()[5]}'s\nValorant Night Market 5th Offer")
+        embed5.set_image(url=m.re()[6][1][4])
+        embed5.set_thumbnail(url=m.re()[4])
+        embed5.add_field(name=m.re()[6][0][4][0],value=f"Price : {m.re()[6][0][4][1]}vp\nBasic Price : {m.re()[6][0][4][2]}\nDiscount : {m.re()[6][0][4][3]}%", inline=False) #inline이 False라면 다음줄로 넘깁니다.
+
+        embed6 = discord.Embed(timestamp=ctx.message.created_at, colour=discord.Colour.red(),description="",title=f"{m.re()[5]}'s\nValorant Night Market 6th Offer")
+        embed6.set_image(url=m.re()[6][1][5])
+        embed6.set_thumbnail(url=m.re()[4])
+        embed6.add_field(name=m.re()[6][0][5][0],value=f"Price : {m.re()[6][0][5][1]}vp\nBasic Price : {m.re()[6][0][5][2]}\nDiscount : {m.re()[6][0][5][3]}%", inline=False) #inline이 False라면 다음줄로 넘깁니다.
+        await ctx.send(f"""{ctx.message.author.mention}""")
+        await ctx.send(embeds = [embed1,embed2,embed3,embed4,embed5,embed6])
 
 
 # @bot.command(aliases=[""])

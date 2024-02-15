@@ -166,9 +166,9 @@ async def store(username,password,region):
         nm_color = 6794488
       elif priceint == 1275:
         nm_color = 44167
-      elif priceint == 2175 or nm_oringinalprice == 2675:
+      elif priceint == 2175 or priceint == 2675:
         nm_color = 16750685
-      elif priceint == 2475 or nm_oringinalprice == 2975 or nm_oringinalprice >= 3000:
+      elif priceint == 2475 or priceint == 2975 or priceint >= 3000:
         nm_color = 16773764
       result.append([nm_items, nm_finalprice, nm_oringinalprice, nm_discoount,nm_color])
     

@@ -28,7 +28,7 @@ def wjson(id,password,nick,filename='db.json'):
         txt = a.encrypt(password.encode(),a.keygener(),nick)
         data = {
             f"{nick}":{
-                f"{id}":txt,
+                f"{id}":txt.decode(),
                 f"{nick}":f"{id}",
             }
         }
@@ -43,7 +43,6 @@ def getpass(nick):
             id = data[f'{nick}'][f'{nick}']
             txt = data[nick][id]
             p = a.decrypt(txt,nick).decode()
-            print(p)
         except:
             id = None
             p = None

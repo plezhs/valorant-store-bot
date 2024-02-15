@@ -136,6 +136,7 @@ async def store(username,password,region):
         skin = r.json()
         data = {
           'name':skin['data']['displayName'],
+          'icon':skin['data']['displayIcon'],
           'uuid': item['Offer']['OfferID'],
           'price': {
             'oringinal':item['Offer']['Cost']['85ad13f7-3d1b-5128-9eb2-7cd8ee0b5741'],
@@ -157,12 +158,25 @@ async def store(username,password,region):
       nm_finalprice = (f"{ghj['price']['final']}")
       nm_oringinalprice = (f"{ghj['price']['oringinal']}")
       nm_discoount = (f"{ghj['price']['discount']}")
-      result.append([nm_items, nm_finalprice, nm_oringinalprice, nm_discoount])
-
+      nm_color = 0
+      priceint = int(nm_oringinalprice)
+      if priceint == 1775:
+        nm_color = 16011413
+      elif priceint == 875:
+        nm_color = 6794488
+      elif priceint == 1275:
+        nm_color = 44167
+      elif priceint == 2175 or nm_oringinalprice == 2675:
+        nm_color = 16750685
+      elif priceint == 2475 or nm_oringinalprice == 2975 or nm_oringinalprice >= 3000:
+        nm_color = 16773764
+      result.append([nm_items, nm_finalprice, nm_oringinalprice, nm_discoount,nm_color])
+    
     nmskinurl = list()
-    for js in nm_uuid:
-      async with session.get('https://valorant-api.com/v1/weapons/skinlevels/'+ js) as r:
-        nmskinurl.append(json.loads(await r.text())['data']['displayIcon'])
+    for jj in nm:
+      nmskinurl.append(jj['icon'])
+
+    
   a=list()
   a.append([skin1,getprice(skin1uuid)])
   a.append([skin2,getprice(skin2uuid)])

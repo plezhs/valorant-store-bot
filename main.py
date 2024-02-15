@@ -25,31 +25,25 @@ import a
 def wjson(id,password,nick,filename='db.json'):
     with open(filename,'r+',encoding='UTF-8') as f:
         file_data = json.load(f)
-        enc,decbook = a.makeCodebook(a.randomCodebook())
-        dec = {
-            
-        }
+        txt = a.encrypt(password.encode(),a.keygener(),nick)
         data = {
             f"{nick}":{
-                f"{id}":f"{a.encrypt(password,enc)}",
+                f"{id}":txt,
                 f"{nick}":f"{id}",
-                "dec": decbook
             }
         }
         file_data.update(data)
         f.seek(0)
         json.dump(file_data,f,indent=4)
-        print(file_data)
-        print(data)
 
 def getpass(nick):
     with open('.\\db.json','r',encoding='UTF-8') as f:
         data = json.load(f)
         try:
-            dec = data[f'{nick}']['dec']
-            print(type(dec))
             id = data[f'{nick}'][f'{nick}']
-            p = a.decrypt(data[f'{nick}'][id],dec)
+            txt = data[nick][id]
+            p = a.decrypt(txt,nick).decode()
+            print(p)
         except:
             id = None
             p = None
@@ -92,16 +86,16 @@ def rint(min:int, max:int):
     return random.sample(range(min,max),1)
 
 @bot.command(aliases=["valshp","vs","valoshop","valorantshop","vlshop","ㅍ미놰ㅔ","valahop"])
-async def valshop(ctx,a=None,c=None):
+async def valshop(ctx,nick=None,c=None):
     global login
-    if a == None or c == None or getpass(a) == (None,None):
+    if nick == None or c == None or getpass(nick) == (None,None):
         await ctx.message.delete()
         await ctx.send(f"{ctx.message.author.mention} 사용법 : !valshop [NickName] [Your Region: na - North America, latam - Latin America, br -	Brazil, eu - Europe, ap - Asia Pacific, kr - Korea]")
     else:
         await ctx.message.delete()
         if(c in ["kr","br","na","eu","latam","ap"]):
             try:
-                iii,ppp = getpass(a)
+                iii,ppp = getpass(nick)
                 await asyncio.create_task(m.store(iii,ppp,c))
                 name = ctx.message.author.name
                 name = name.title()
@@ -142,13 +136,13 @@ async def valshop(ctx,a=None,c=None):
                 f.write(f"[{time}] {ctx.message.author} issued problem : {sdfs}. Issued Server : {ctx.message.guild}. Issued Server ID : {ctx.message.guild.id}\n")
         
 @bot.command(aliases=["mn","ㅜㅡ"])
-async def nm(ctx,a=None,c=None):
-    if a ==None or c == None:
+async def nm(ctx,nick=None,c=None):
+    if nick ==None or c == None:
         await ctx.message.delete()
         await ctx.send(f"{ctx.message.author.mention} 사용법 : !nm [Riot ID] [Password] [Your Region: na - North America, latam - Latin America, br -	Brazil, eu - Europe, ap - Asia Pacific, kr - Korea]")
     else:
         await ctx.message.delete()
-        iii,ppp = getpass(a)
+        iii,ppp = getpass(nick)
         await asyncio.create_task(m.store(iii,ppp,c))
         embed = discord.Embed(timestamp=ctx.message.created_at, colour=discord.Colour.red(), title="Valorant Night Market", description=m.nightm())
         # embed.set_thumbnail(url="https://prforest.ga/files/img/홍보숲.png")
@@ -177,7 +171,6 @@ async def nm(ctx,a=None,c=None):
 
 @bot.command()
 async def set(ctx,ID=None,Password=None,nickname=None):
-    global login
     if (ID==None or Password == None or nickname==None):
         await ctx.send("!set [ID] [Password] [NickName]")
     else:

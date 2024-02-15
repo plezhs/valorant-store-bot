@@ -27,9 +27,9 @@ def wjson(id,password,nick,filename='db.json'):
         file_data = json.load(f)
         txt = a.encrypt(password.encode(),a.keygener(),nick)
         data = {
-            f"{nick}":{
+            f"{nick.encode('UTF-8')}":{
                 f"{id}":txt.decode(),
-                f"{nick}":f"{id}",
+                f"{nick.encode('UTF-8')}":f"{id}",
             }
         }
         file_data.update(data)

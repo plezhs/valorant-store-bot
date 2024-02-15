@@ -98,22 +98,22 @@ async def valshop(ctx,nick=None,c=None):
                 await asyncio.create_task(m.store(iii,ppp,c))
                 name = ctx.message.author.name
                 name = name.title()
-                embed1 = discord.Embed(timestamp=ctx.message.created_at, colour=discord.Colour.red(),description="",title=f"{m.re()[5]}'s\nValorant Shop 1st Offer")
+                embed1 = discord.Embed(timestamp=ctx.message.created_at, color=m.re()[0][2],description="",title=f"{m.re()[5]}'s\nValorant Shop 1st Offer")
                 embed1.set_image(url=m.url1)
                 embed1.set_thumbnail(url=m.re()[4])
                 embed1.add_field(name=m.re()[0][0],value=f"Price : {m.re()[0][1]}vp", inline=False) #inline이 False라면 다음줄로 넘깁니다.
 
-                embed2 = discord.Embed(timestamp=ctx.message.created_at, colour=discord.Colour.red(),description="",title=f"{m.re()[5]}'s\nValorant Shop 2nd Offer")
+                embed2 = discord.Embed(timestamp=ctx.message.created_at, color=m.re()[1][2],description="",title=f"{m.re()[5]}'s\nValorant Shop 2nd Offer")
                 embed2.set_image(url=m.url2)
                 embed2.set_thumbnail(url=m.re()[4])
                 embed2.add_field(name=m.re()[1][0],value=f"Price : {m.re()[1][1]}vp", inline=False) #inline이 False라면 다음줄로 넘깁니다.
 
-                embed3 = discord.Embed(timestamp=ctx.message.created_at, colour=discord.Colour.red(),description="",title=f"{m.re()[5]}'s\nValorant Shop 3rd Offer")
+                embed3 = discord.Embed(timestamp=ctx.message.created_at,color= m.re()[2][2],description="",title=f"{m.re()[5]}'s\nValorant Shop 3rd Offer")
                 embed3.set_image(url=m.url3)
                 embed3.set_thumbnail(url=m.re()[4])
                 embed3.add_field(name=m.re()[2][0],value=f"Price : {m.re()[2][1]}vp", inline=False) #inline이 False라면 다음줄로 넘깁니다.
 
-                embed4 = discord.Embed(timestamp=ctx.message.created_at, colour=discord.Colour.red(),description="",title=f"{m.re()[5]}'s\nValorant Shop 4th Offer")
+                embed4 = discord.Embed(timestamp=ctx.message.created_at, color=m.re()[3][2],description="",title=f"{m.re()[5]}'s\nValorant Shop 4th Offer")
                 embed4.set_image(url=m.url4)
                 embed4.set_thumbnail(url=m.re()[4])
                 embed4.add_field(name=m.re()[3][0],value=f"Price : {m.re()[3][1]}vp", inline=False) #inline이 False라면 다음줄로 넘깁니다.

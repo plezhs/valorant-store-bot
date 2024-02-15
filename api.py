@@ -128,6 +128,20 @@ async def store(username,password,region):
       if item["OfferID"] == uuid:
         return item['Cost']['85ad13f7-3d1b-5128-9eb2-7cd8ee0b5741']
   
+  def getcolor(priceint):
+    color = 0
+    if priceint == 1775 or priceint == 3550:
+      color = 16011413
+    elif priceint == 875 or priceint == 1750:
+      color = 6794488
+    elif priceint == 1275 or priceint == 2550:
+      color = 44167
+    elif priceint == 2175 or priceint == 2675 or priceint == 4350 or priceint == 5350 or priceint == 2375:
+      color = 16750685
+    elif priceint == 2475 or priceint == 2975 or priceint == 4950:
+      color = 16773764
+    return color
+
   def nightmarket(datad):
     out = []
     try:
@@ -158,30 +172,19 @@ async def store(username,password,region):
       nm_finalprice = (f"{ghj['price']['final']}")
       nm_oringinalprice = (f"{ghj['price']['oringinal']}")
       nm_discoount = (f"{ghj['price']['discount']}")
-      nm_color = 0
       priceint = int(nm_oringinalprice)
-      if priceint == 1775:
-        nm_color = 16011413
-      elif priceint == 875:
-        nm_color = 6794488
-      elif priceint == 1275:
-        nm_color = 44167
-      elif priceint == 2175 or priceint == 2675:
-        nm_color = 16750685
-      elif priceint == 2475 or priceint == 2975 or priceint >= 3000:
-        nm_color = 16773764
+      nm_color = getcolor(priceint)
       result.append([nm_items, nm_finalprice, nm_oringinalprice, nm_discoount,nm_color])
     
     nmskinurl = list()
     for jj in nm:
       nmskinurl.append(jj['icon'])
 
-    
   a=list()
-  a.append([skin1,getprice(skin1uuid)])
-  a.append([skin2,getprice(skin2uuid)])
-  a.append([skin3,getprice(skin3uuid)])
-  a.append([skin4,getprice(skin4uuid)])
+  a.append([skin1,getprice(skin1uuid),getcolor(getprice(skin1uuid))])
+  a.append([skin2,getprice(skin2uuid),getcolor(getprice(skin2uuid))])
+  a.append([skin3,getprice(skin3uuid),getcolor(getprice(skin3uuid))])
+  a.append([skin4,getprice(skin4uuid),getcolor(getprice(skin4uuid))])
   a.append(playercardurl)
   a.append(userid)
   a.append([result,nmskinurl])

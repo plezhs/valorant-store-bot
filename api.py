@@ -163,9 +163,10 @@ async def store(username,password,region):
     except KeyError:
       return None
   nm = nightmarket(data)
+  result = list()
+  nmskinurl = list()
   if nm != None:
     nm_uuid = list()
-    result = list()
     for ghj in nm:
       nm_uuid.append(f"{ghj['uuid']}")
       nm_items = (f"{ghj['name']}")
@@ -176,7 +177,6 @@ async def store(username,password,region):
       nm_color = getcolor(priceint)
       result.append([nm_items, nm_finalprice, nm_oringinalprice, nm_discoount,nm_color])
     
-    nmskinurl = list()
     for jj in nm:
       nmskinurl.append(jj['icon'])
 

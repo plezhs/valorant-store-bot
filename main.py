@@ -29,7 +29,7 @@ def wjson(id,password,nick,filename='db.json'):
         file_data = json.load(f)
         txt = a.encrypt(password.encode(),a.keygener(),nick)
         data = {
-            f"{nick.encode('UTF-8')}":{
+            f"{nick}":{
                 f"{id}":txt.decode(),
                 f"{nick.encode('UTF-8')}":f"{id}",
             }
@@ -95,40 +95,40 @@ async def valshop(ctx,nick=None,c=None):
     else:
         await ctx.message.delete()
         if(c in ["kr","br","na","eu","latam","ap"]):
-            try:
-                iii,ppp = getpass(nick)
-                await asyncio.create_task(m.store(iii,ppp,c))
-                name = ctx.message.author.name
-                name = name.title()
-                embed1 = discord.Embed(timestamp=ctx.message.created_at, color=m.re()[0][2],description="",title=f"{m.re()[5]}'s\nValorant Shop 1st Offer")
-                embed1.set_image(url=m.url1)
-                embed1.set_thumbnail(url=m.re()[4])
-                embed1.add_field(name=m.re()[0][0],value=f"Price : {m.re()[0][1]}vp", inline=False) #inline이 False라면 다음줄로 넘깁니다.
+            # try:
+            iii,ppp = getpass(nick)
+            await asyncio.create_task(m.store(iii,ppp,c))
+            name = ctx.message.author.name
+            name = name.title()
+            embed1 = discord.Embed(timestamp=ctx.message.created_at, color=m.re()[0][2],description="",title=f"{m.re()[5]}'s\nValorant Shop 1st Offer")
+            embed1.set_image(url=m.url1)
+            embed1.set_thumbnail(url=m.re()[4])
+            embed1.add_field(name=m.re()[0][0],value=f"Price : {m.re()[0][1]}vp", inline=False) #inline이 False라면 다음줄로 넘깁니다.
 
-                embed2 = discord.Embed(timestamp=ctx.message.created_at, color=m.re()[1][2],description="",title=f"{m.re()[5]}'s\nValorant Shop 2nd Offer")
-                embed2.set_image(url=m.url2)
-                embed2.set_thumbnail(url=m.re()[4])
-                embed2.add_field(name=m.re()[1][0],value=f"Price : {m.re()[1][1]}vp", inline=False) #inline이 False라면 다음줄로 넘깁니다.
+            embed2 = discord.Embed(timestamp=ctx.message.created_at, color=m.re()[1][2],description="",title=f"{m.re()[5]}'s\nValorant Shop 2nd Offer")
+            embed2.set_image(url=m.url2)
+            embed2.set_thumbnail(url=m.re()[4])
+            embed2.add_field(name=m.re()[1][0],value=f"Price : {m.re()[1][1]}vp", inline=False) #inline이 False라면 다음줄로 넘깁니다.
 
-                embed3 = discord.Embed(timestamp=ctx.message.created_at,color= m.re()[2][2],description="",title=f"{m.re()[5]}'s\nValorant Shop 3rd Offer")
-                embed3.set_image(url=m.url3)
-                embed3.set_thumbnail(url=m.re()[4])
-                embed3.add_field(name=m.re()[2][0],value=f"Price : {m.re()[2][1]}vp", inline=False) #inline이 False라면 다음줄로 넘깁니다.
+            embed3 = discord.Embed(timestamp=ctx.message.created_at,color= m.re()[2][2],description="",title=f"{m.re()[5]}'s\nValorant Shop 3rd Offer")
+            embed3.set_image(url=m.url3)
+            embed3.set_thumbnail(url=m.re()[4])
+            embed3.add_field(name=m.re()[2][0],value=f"Price : {m.re()[2][1]}vp", inline=False) #inline이 False라면 다음줄로 넘깁니다.
 
-                embed4 = discord.Embed(timestamp=ctx.message.created_at, color=m.re()[3][2],description="",title=f"{m.re()[5]}'s\nValorant Shop 4th Offer")
-                embed4.set_image(url=m.url4)
-                embed4.set_thumbnail(url=m.re()[4])
-                embed4.add_field(name=m.re()[3][0],value=f"Price : {m.re()[3][1]}vp", inline=False) #inline이 False라면 다음줄로 넘깁니다.
-                await ctx.send(f"""{ctx.message.author.mention}""")
-                await ctx.send(embeds = [embed1,embed2,embed3,embed4])
-                rt =str(time)[0:10]
-                with open(f'{rt}.log.txt', 'a',encoding='UTF-8') as f:
-                    f.write(f"[{time}] {ctx.message.author} logged in Riot with 'Id : {iii}', 'Region : {c}' and checked Valorant Shop Offers. Used Server : {ctx.message.guild}. Issued Server ID : {ctx.message.guild.id}\n")
-            except:
-                await ctx.send(f"{ctx.message.author.mention}\nYou did something wrong.\nCheck your ID or Password or Region.\nThen retry again")
-                rt =str(time)[0:10]
-                with open(f'{rt}.log.txt', 'a',encoding='UTF-8') as f:
-                    f.write(f"[{time}] {ctx.message.author} issued problem : {m.re()}. Issued Server : {ctx.message.guild}. Issued Server ID : {ctx.message.guild.id}\n")
+            embed4 = discord.Embed(timestamp=ctx.message.created_at, color=m.re()[3][2],description="",title=f"{m.re()[5]}'s\nValorant Shop 4th Offer")
+            embed4.set_image(url=m.url4)
+            embed4.set_thumbnail(url=m.re()[4])
+            embed4.add_field(name=m.re()[3][0],value=f"Price : {m.re()[3][1]}vp", inline=False) #inline이 False라면 다음줄로 넘깁니다.
+            await ctx.send(f"""{ctx.message.author.mention}""")
+            await ctx.send(embeds = [embed1,embed2,embed3,embed4])
+            rt =str(time)[0:10]
+            with open(f'{rt}.log.txt', 'a',encoding='UTF-8') as f:
+                f.write(f"[{time}] {ctx.message.author} logged in Riot with 'Id : {iii}', 'Region : {c}' and checked Valorant Shop Offers. Used Server : {ctx.message.guild}. Issued Server ID : {ctx.message.guild.id}\n")
+            # except:
+            #     await ctx.send(f"{ctx.message.author.mention}\nYou did something wrong.\nCheck your ID or Password or Region.\nThen retry again")
+            #     rt =str(time)[0:10]
+            #     with open(f'{rt}.log.txt', 'a',encoding='UTF-8') as f:
+            #         f.write(f"[{time}] {ctx.message.author} issued problem : {m.re()}. Issued Server : {ctx.message.guild}. Issued Server ID : {ctx.message.guild.id}\n")
         else:
             await ctx.send(f"{ctx.message.author.mention}\nRegion ERROR")
             sdfs="Region ERROR"
@@ -210,4 +210,4 @@ async def on_message(msg):
     #             await channel.send(msg)
     await bot.process_commands(msg)
 
-bot.run("")
+bot.run("MTEzNjMxMjQ0NzgyNTg4NzQwNA.GNBE0w.EY1xpXSpoHKHnXBsFjFLpLJj0OOgcxDVQwo9nk")

@@ -210,4 +210,4 @@ async def on_message(msg):
     #             await channel.send(msg)
     await bot.process_commands(msg)
 
-bot.run("MTEzNjMxMjQ0NzgyNTg4NzQwNA.GNBE0w.EY1xpXSpoHKHnXBsFjFLpLJj0OOgcxDVQwo9nk")
+bot.run("")

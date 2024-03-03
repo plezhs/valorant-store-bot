@@ -31,7 +31,7 @@ def wjson(id,password,nick,filename='db.json'):
         data = {
             f"{nick}":{
                 f"{id}":txt.decode(),
-                f"{nick.encode('UTF-8')}":f"{id}",
+                f"{nick}":f"{id}",
             }
         }
         file_data.update(data)

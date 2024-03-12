@@ -2,7 +2,6 @@ api_key = "RGAPI-62c1d244-a9ea-4ef0-ac45-61866e05d062"
 api_url1 = "https://kr.api.riotgames.com/val/status/v1/platform-data"
 
 import aiohttp, json, requests
-from fastapi import FastAPI
 import os, sys
 import asyncio
 from riot_auth import RiotAuth, auth_exceptions
@@ -21,6 +20,7 @@ from urllib3 import PoolManager
 from collections import OrderedDict
 from re import compile
 import os
+import datetime
 
 cw = os.get_terminal_size().columns
 global a
@@ -33,10 +33,10 @@ global url4
 async def Auth(username,password):
     global a
     
-    build = requests.get('https://valorant-api.com/v1/version').json()['data']['riotClientBuild']
-    print('Valorant Build '+build)
+    build = requests.get('https://valorant-api.com/v1/version').json()
+    print('Valorant Build '+build['data']['riotClientBuild'])
 
-    RiotAuth.RIOT_CLIENT_USER_AGENT = build + '%s (Windows;10;;Professional, x64)'
+    RiotAuth.RIOT_CLIENT_USER_AGENT = build['data']['riotClientBuild'] + '%s (Windows;10;;Professional, x64)'
 
     if sys.platform == "win32":
         asyncio.set_event_loop_policy(asyncio.WindowsSelectorEventLoopPolicy())
@@ -52,8 +52,8 @@ async def Auth(username,password):
     except auth_exceptions.RiotMultifactorError:
         print('Accounts with MultiFactor enabled are not supported at this time.')
         a="Accounts with MultiFactor enabled are not supported at this time."
-    return auth
-async def store(username,password,region):
+    return auth,build
+async def store(username,password,region,start=0,end=20):
   global a
   global nm
   global url1
@@ -61,7 +61,7 @@ async def store(username,password,region):
   global url3
   global url4
   if username != None and password != None:
-    auth = await Auth(username,password)
+    auth,bulid = await Auth(username,password)
     
     token_type = auth.token_type
     access_token = auth.access_token
@@ -71,6 +71,12 @@ async def store(username,password,region):
     conn = aiohttp.TCPConnector()
     session = aiohttp.ClientSession(connector=conn)
 
+    header = {
+    'X-Riot-Entitlements-JWT' : entitlements_token,
+    'Authorization': 'Bearer '+ access_token,
+    'X-Riot-ClientPlatform': 'ew0KCSJwbGF0Zm9ybVR5cGUiOiAiUEMiLA0KCSJwbGF0Zm9ybU9TIjogIldpbmRvd3MiLA0KCSJwbGF0Zm9ybU9TVmVyc2lvbiI6ICIxMC4wLjE5MDQyLjEuMjU2LjY0Yml0IiwNCgkicGxhdGZvcm1DaGlwc2V0IjogIlVua25vd24iDQp9',
+    'X-Riot-ClientVersion': bulid['data']['riotClientVersion']
+    }
     headers = {
     'X-Riot-Entitlements-JWT' : entitlements_token,
     'Authorization': 'Bearer '+ access_token,
@@ -78,12 +84,28 @@ async def store(username,password,region):
     headersa = {
     'Authorization': 'Bearer '+ access_token,
     }
-
-    async with session.get('https://pd.'+region+'.a.pvp.net/store/v1/offers/', headers=headers) as r:
-      pricedata = await r.json()
     
-    async with session.get('https://pd.'+ region +'.a.pvp.net/store/v2/storefront/'+ user_id, headers=headers) as r:
-      data = json.loads(await r.text())
+    async with session.get(f'https://pd.{region}.a.pvp.net/match-history/v1/history/{user_id}?startIndex={start}&endIndex={end}', headers=headers) as r1:
+      ata = json.loads(await r1.text())
+      mid = list()
+      for j in ata['History']:
+        mid.append(j['MatchID'])
+    gamedetail = list()
+    for k in mid:
+      namelist = list()
+      async with session.get(f'https://pd.{region}.a.pvp.net/match-details/v1/matches/{k}', headers=header) as r:
+        ddat = json.loads(await r.text())
+        for plll in ddat['players']:
+          namelist.append(plll['gameName'] + "#" + plll['tagLine'])
+        gamedetail.append(namelist)
+        with open(f'.//test//{k}.json','w+',encoding='UTF-8') as kk:
+          json.dump(ddat,kk,ensure_ascii=False,indent=4)
+      
+    async with session.get('https://pd.'+region+'.a.pvp.net/store/v1/offers/', headers=headers) as r2:
+      pricedata = await r2.json()
+    
+    async with session.get('https://pd.'+ region +'.a.pvp.net/store/v2/storefront/'+ user_id, headers=headers) as r3:
+      data = json.loads(await r3.text())
     allstore = data.get('SkinsPanelLayout')
     singleitems = allstore["SingleItemOffers"]
     skin1uuid = singleitems[0]
@@ -91,44 +113,49 @@ async def store(username,password,region):
     skin3uuid = singleitems[2]
     skin4uuid = singleitems[3]
 
-    async with session.get(f'https://pd.{region}.a.pvp.net/personalization/v2/players/{user_id}/playerloadout', headers=headers) as r:
-      pl = json.loads(await r.text())
+    async with session.get(f'https://pd.{region}.a.pvp.net/account-xp/v1/players/{user_id}', headers=header) as r4:
+      ddata = json.loads(await r4.text())
+      mmr = ddata['Progress']['Level']
+    async with session.get(f'https://pd.{region}.a.pvp.net/mmr/v1/players/{user_id}', headers=header) as r5:
+      mdata = json.loads(await r5.text())
+    async with session.get(f'https://pd.{region}.a.pvp.net/personalization/v2/players/{user_id}/playerloadout', headers=headers) as r6:
+      pl = json.loads(await r6.text())
     player = pl.get('Identity')
     playercard = player['PlayerCardID']
 
-    async with session.get(f'https://pd.{region}.a.pvp.net/store/v1/wallet/{user_id}', headers=headers) as r:
-      wallet = json.loads(await r.text())
+    async with session.get(f'https://pd.{region}.a.pvp.net/store/v1/wallet/{user_id}', headers=headers) as r7:
+      wallet = json.loads(await r7.text())
     vp = wallet['Balances']['85ad13f7-3d1b-5128-9eb2-7cd8ee0b5741']
     kc = wallet['Balances']['85ca954a-41f2-ce94-9b45-8ca3dd39a00d']
     rp = wallet['Balances']['e59aa87c-4cbf-517a-5983-6e81511be9b7']
 
     temp = []
-    async with session.post('https://auth.riotgames.com/userinfo', headers=headersa, json={}) as r:
-        asd = await r.json()
+    async with session.post('https://auth.riotgames.com/userinfo', headers=headersa, json={}) as r8:
+        asd = await r8.json()
     userid = asd['acct']['game_name'] +"#"+ asd['acct']['tag_line']
 
-    async with session.get('https://valorant-api.com/v1/weapons/skinlevels/'+ skin1uuid) as r:
-      skin1 = json.loads(await r.text())['data']['displayName']
-      skin1url = json.loads(await r.text())['data']['displayIcon']
+    async with session.get('https://valorant-api.com/v1/weapons/skinlevels/'+ skin1uuid) as r9:
+      skin1 = json.loads(await r9.text())['data']['displayName']
+      skin1url = json.loads(await r9.text())['data']['displayIcon']
 
-    async with session.get('https://valorant-api.com/v1/weapons/skinlevels/'+ skin2uuid) as r:
-      skin2 = json.loads(await r.text())['data']['displayName']
-      skin2url = json.loads(await r.text())['data']['displayIcon']
+    async with session.get('https://valorant-api.com/v1/weapons/skinlevels/'+ skin2uuid) as r10:
+      skin2 = json.loads(await r10.text())['data']['displayName']
+      skin2url = json.loads(await r10.text())['data']['displayIcon']
 
-    async with session.get('https://valorant-api.com/v1/weapons/skinlevels/'+ skin3uuid) as r:
-      skin3 = json.loads(await r.text())['data']['displayName']
-      skin3url = json.loads(await r.text())['data']['displayIcon']
+    async with session.get('https://valorant-api.com/v1/weapons/skinlevels/'+ skin3uuid) as r11:
+      skin3 = json.loads(await r11.text())['data']['displayName']
+      skin3url = json.loads(await r11.text())['data']['displayIcon']
 
-    async with session.get('https://valorant-api.com/v1/weapons/skinlevels/'+ skin4uuid) as r:
-      skin4 = json.loads(await r.text())['data']['displayName']
-      skin4url = json.loads(await r.text())['data']['displayIcon']
+    async with session.get('https://valorant-api.com/v1/weapons/skinlevels/'+ skin4uuid) as r12:
+      skin4 = json.loads(await r12.text())['data']['displayName']
+      skin4url = json.loads(await r12.text())['data']['displayIcon']
     url1 = skin1url
     url2 = skin2url
     url3 = skin3url
     url4 = skin4url
 
-    async with session.get(f' https://valorant-api.com/v1/playercards/{playercard}') as r:
-      ddd = json.loads(await r.text())['data']
+    async with session.get(f' https://valorant-api.com/v1/playercards/{playercard}') as r13:
+      ddd = json.loads(await r13.text())['data']
       playercardurl = ddd['displayIcon']
       wideArt = ddd['wideArt']
     def getprice(uuid):
@@ -198,6 +225,9 @@ async def store(username,password,region):
     a.append([result,nmskinurl])
     a.append([vp,kc,rp])
     a.append(wideArt)
+    a.append(mmr)
+    a.append(user_id)
+    a.append(gamedetail)
     await session.close()
 
 def re():
@@ -215,3 +245,4 @@ def url3():
 def url4():
   global url4
   return url4
+

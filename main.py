@@ -1,5 +1,4 @@
 import aiohttp, json, requests
-from fastapi import FastAPI
 import os, sys
 import asyncio
 from riot_auth import RiotAuth, auth_exceptions
@@ -39,7 +38,7 @@ def wjson(id,password,nick,filename='db.json'):
         json.dump(file_data,f,indent=4)
 
 def getpass(nick):
-    with open('.\\db.json','r',encoding='UTF-8') as f:
+    with open('db.json','r',encoding='UTF-8') as f:
         data = json.load(f)
         try:
             id = data[f'{nick}'][f'{nick}']
@@ -237,6 +236,27 @@ async def vp(ctx,nick=None,c=None):
         else:
             await ctx.send(f"{ctx.message.author.mention}\n현재 이 닉네임으로 등록된 계정이 없습니다.")
 
+@bot.command()
+async def info(ctx,nick=None,c=None):
+    if nick ==None or c == None:
+        await ctx.message.delete()
+        await ctx.send(f"{ctx.message.author.mention} 사용법 : !info [NickName] [Your Region: na - North America, latam - Latin America, br -	Brazil, eu - Europe, ap - Asia Pacific, kr - Korea]")
+    else:
+        await ctx.message.delete()
+        iii,ppp = getpass(nick)
+        if iii != None and ppp != None:
+            await asyncio.create_task(m.store(iii,ppp,c))
+            name = ctx.message.author.name
+            name = name.title()
+            embed1 = discord.Embed(timestamp=ctx.message.created_at, color=discord.Color(0xFFFFFF),description="",title=f"{m.re()[5]}'s\nInformation")
+            embed1.set_image(url=m.re()[8])
+            embed1.set_thumbnail(url=m.re()[4])
+            embed1.add_field(name=f"Level",value=f"{m.re()[9]}", inline=False)
+            await ctx.send(f"""{ctx.message.author.mention}""")
+            await ctx.send(embeds = [embed1])
+        else:
+            await ctx.send(f"{ctx.message.author.mention}\n현재 이 닉네임으로 등록된 계정이 없습니다.")
+
 @bot.event
 async def on_message(msg):
     # if msg.content == "/Set":
@@ -247,4 +267,4 @@ async def on_message(msg):
     #             await channel.send(msg)
     await bot.process_commands(msg)
 
-bot.run("")
+bot.run("MTEzNjMxMjQ0NzgyNTg4NzQwNA.GE6zk1.PNXTgUxyZOMANuV9ZX07HNjpVTBYr-0b6xs_7o")

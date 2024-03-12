@@ -220,17 +220,17 @@ async def vp(ctx,nick=None,c=None):
             embed1 = discord.Embed(timestamp=ctx.message.created_at, color=discord.Color(0xFFFFFF),description="",title=f"{m.re()[5]}'s\nValorant Points")
             embed1.set_image(url=m.re()[8])
             embed1.set_thumbnail(url="https://static.wikia.nocookie.net/valorant/images/9/9d/Valorant_Points.png/revision/latest?cb=20200408014952")
-            embed1.add_field(name=m.re()[7][0] + "VP",value="", inline=False) #inline이 False라면 다음줄로 넘깁니다.
+            embed1.add_field(name=str(m.re()[7][0]) + "VP",value="", inline=False) #inline이 False라면 다음줄로 넘깁니다.
 
             embed2 = discord.Embed(timestamp=ctx.message.created_at, color=discord.Color(0xFFFFFF),description="",title=f"{m.re()[5]}'s\nKingdom Credits")
             embed2.set_image(url=m.re()[8])
             embed2.set_thumbnail(url="https://static.wikia.nocookie.net/valorant/images/9/9f/Kingdom_Credits.png/revision/latest?cb=20230608160711")
-            embed2.add_field(name=m.re()[7][1] + "KC",value=f"", inline=False) #inline이 False라면 다음줄로 넘깁니다.
+            embed2.add_field(name=str(m.re()[7][1]) + "KC",value=f"", inline=False) #inline이 False라면 다음줄로 넘깁니다.
 
             embed3 = discord.Embed(timestamp=ctx.message.created_at, color=discord.Color(0xFFFFFF),description="",title=f"{m.re()[5]}'s\nRadianite Points")
             embed3.set_image(url=m.re()[8])
             embed3.set_thumbnail(url="https://static.wikia.nocookie.net/valorant/images/4/47/Radianite_Points.png/revision/latest?cb=20200408015457")
-            embed3.add_field(name=m.re()[7][2] + "RP",value=f"", inline=False)
+            embed3.add_field(name=str(m.re()[7][2]) + "RP",value=f"", inline=False)
             await ctx.send(f"""{ctx.message.author.mention}""")
             await ctx.send(embeds = [embed1,embed2,embed3])
         else:

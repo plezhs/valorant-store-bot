@@ -125,10 +125,14 @@ async def store(username,password,region,start=0,end=20):
         finalmdata = eval(matchdata.decode('utf-8'))['Loadouts']
         z = list()
         for i in range(0,10):
-          if finalmdata[i] != None:
+          try:
             z.append(finalmdata[i]['Loadout']['Subject'])
-        vudrbs[userid] = z
-        print(z)
+          except:
+            z.append(finalmdata[0]['Loadout']['Subject'])
+
+    for plmmr in z:
+      async with session.get(f'https://pd.{region}.a.pvp.net/mmr/v1/players/{plmmr}', headers=header) as r5:
+        mdata = json.loads(await r5.text())
 
     async with session.get('https://pd.'+ region +'.a.pvp.net/store/v2/storefront/'+ user_id, headers=headers) as r3:
       data = json.loads(await r3.text())
@@ -142,8 +146,6 @@ async def store(username,password,region,start=0,end=20):
     async with session.get(f'https://pd.{region}.a.pvp.net/account-xp/v1/players/{user_id}', headers=header) as r4:
       ddata = json.loads(await r4.text())
       mmr = ddata['Progress']['Level']
-    async with session.get(f'https://pd.{region}.a.pvp.net/mmr/v1/players/{user_id}', headers=header) as r5:
-      mdata = json.loads(await r5.text())
     async with session.get(f'https://pd.{region}.a.pvp.net/personalization/v2/players/{user_id}/playerloadout', headers=headers) as r6:
       pl = json.loads(await r6.text())
     player = pl.get('Identity')
@@ -251,6 +253,7 @@ async def store(username,password,region,start=0,end=20):
     a.append(mmr)
     a.append(user_id)
     a.append(gamedetail)
+    a.append()
     await session.close()
 
 def re():

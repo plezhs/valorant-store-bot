@@ -118,7 +118,7 @@ async def store(username,password,region,start=0,end=20):
       except KeyError:
         finaldata = eval(rierdata.decode('utf-8'))["MatchID"]
         can = True
-    vudrbs = dict()
+
     if can == True:    
       async with session.get(f'https://glz-{region}-1.{region}.a.pvp.net/core-game/v1/matches/{finaldata}/loadouts/',headers = headers) as currentmatch:
         matchdata = await currentmatch.read()

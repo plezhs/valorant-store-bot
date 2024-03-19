@@ -271,7 +271,7 @@ async def 평균티어(ctx,nick=None,c=None):
             embed1 = discord.Embed(timestamp=ctx.message.created_at, color=discord.Color(0xFFFFFF),description="",title=f"{m.re()[5]}의 현재게임의 평균티어")
             embed1.set_image(url=m.re()[8])
             embed1.set_thumbnail(url=m.re()[4])
-            embed1.add_field(name=f"평균티어",value=f"{m.re()[9]}", inline=False)
+            embed1.add_field(name=f"평균티어",value=f"{m.re()[12]}", inline=False)
             await ctx.send(f"""{ctx.message.author.mention}""")
             await ctx.send(embeds = [embed1])
         else:

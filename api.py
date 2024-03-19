@@ -239,7 +239,7 @@ async def store(username,password,region,start=0,end=20):
       
       for jj in nm:
         nmskinurl.append(jj['icon'])
-
+    
     a=list()
     a.append([skin1,getprice(skin1uuid),getcolor(getprice(skin1uuid))])
     a.append([skin2,getprice(skin2uuid),getcolor(getprice(skin2uuid))])

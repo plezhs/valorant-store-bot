@@ -5,6 +5,7 @@ import aiohttp, json, requests
 import os, sys
 import asyncio
 from riot_auth import RiotAuth, auth_exceptions
+import base64
 from getpass import getpass
 import discord
 import random
@@ -85,6 +86,10 @@ async def store(username,password,region,start=0,end=20):
     'Authorization': 'Bearer '+ access_token,
     }
     
+    async with session.post('https://auth.riotgames.com/userinfo', headers=headersa, json={}) as r8:
+        asd = await r8.json()
+    userid = asd['acct']['game_name'] +"#"+ asd['acct']['tag_line']
+    
     async with session.get(f'https://pd.{region}.a.pvp.net/match-history/v1/history/{user_id}?startIndex={start}&endIndex={end}', headers=headers) as r1:
       ata = json.loads(await r1.text())
       mid = list()
@@ -98,12 +103,33 @@ async def store(username,password,region,start=0,end=20):
         for plll in ddat['players']:
           namelist.append(plll['gameName'] + "#" + plll['tagLine'])
         gamedetail.append(namelist)
-        with open(f'.//test//{k}.json','w+',encoding='UTF-8') as kk:
-          json.dump(ddat,kk,ensure_ascii=False,indent=4)
+        # with open(f'.//test//{k}.json','w+',encoding='UTF-8') as kk:
+        #   json.dump(ddat,kk,ensure_ascii=False,indent=4)
       
     async with session.get('https://pd.'+region+'.a.pvp.net/store/v1/offers/', headers=headers) as r2:
+      # print(r2)
       pricedata = await r2.json()
     
+    async with session.get(f'https://glz-{region}-1.{region}.a.pvp.net/core-game/v1/players/{user_id}',headers = headers) as rier:
+      rierdata = await rier.read()
+      try:
+        eval(rierdata.decode('utf-8'))["message"]
+        can = False
+      except KeyError:
+        finaldata = eval(rierdata.decode('utf-8'))["MatchID"]
+        can = True
+    vudrbs = dict()
+    if can == True:    
+      async with session.get(f'https://glz-{region}-1.{region}.a.pvp.net/core-game/v1/matches/{finaldata}/loadouts/',headers = headers) as currentmatch:
+        matchdata = await currentmatch.read()
+        finalmdata = eval(matchdata.decode('utf-8'))['Loadouts']
+        z = list()
+        for i in range(0,10):
+          if finalmdata[i] != None:
+            z.append(finalmdata[i]['Loadout']['Subject'])
+        vudrbs[userid] = z
+        print(z)
+
     async with session.get('https://pd.'+ region +'.a.pvp.net/store/v2/storefront/'+ user_id, headers=headers) as r3:
       data = json.loads(await r3.text())
     allstore = data.get('SkinsPanelLayout')
@@ -130,9 +156,6 @@ async def store(username,password,region,start=0,end=20):
     rp = wallet['Balances']['e59aa87c-4cbf-517a-5983-6e81511be9b7']
 
     temp = []
-    async with session.post('https://auth.riotgames.com/userinfo', headers=headersa, json={}) as r8:
-        asd = await r8.json()
-    userid = asd['acct']['game_name'] +"#"+ asd['acct']['tag_line']
 
     async with session.get('https://valorant-api.com/v1/weapons/skinlevels/'+ skin1uuid) as r9:
       skin1 = json.loads(await r9.text())['data']['displayName']

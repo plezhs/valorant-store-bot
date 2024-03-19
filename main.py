@@ -256,6 +256,26 @@ async def info(ctx,nick=None,c=None):
             await ctx.send(embeds = [embed1])
         else:
             await ctx.send(f"{ctx.message.author.mention}\n현재 이 닉네임으로 등록된 계정이 없습니다.")
+@bot.command()
+async def 평균티어(ctx,nick=None,c=None):
+    if nick ==None or c == None:
+        await ctx.message.delete()
+        await ctx.send(f"{ctx.message.author.mention} 사용법 : !평균티어 [NickName] [Your Region: na - North America, latam - Latin America, br -	Brazil, eu - Europe, ap - Asia Pacific, kr - Korea]")
+    else:
+        await ctx.message.delete()
+        iii,ppp = getpass(nick)
+        if iii != None and ppp != None:
+            await asyncio.create_task(m.store(iii,ppp,c))
+            name = ctx.message.author.name
+            name = name.title()
+            embed1 = discord.Embed(timestamp=ctx.message.created_at, color=discord.Color(0xFFFFFF),description="",title=f"{m.re()[5]}의 현재게임의 평균티어")
+            embed1.set_image(url=m.re()[8])
+            embed1.set_thumbnail(url=m.re()[4])
+            embed1.add_field(name=f"평균티어",value=f"{m.re()[9]}", inline=False)
+            await ctx.send(f"""{ctx.message.author.mention}""")
+            await ctx.send(embeds = [embed1])
+        else:
+            await ctx.send(f"{ctx.message.author.mention}\n현재 이 닉네임으로 등록된 계정이 없습니다.")
 
 @bot.event
 async def on_message(msg):
@@ -267,4 +287,4 @@ async def on_message(msg):
     #             await channel.send(msg)
     await bot.process_commands(msg)
 
-bot.run("MTEzNjMxMjQ0NzgyNTg4NzQwNA.GE6zk1.PNXTgUxyZOMANuV9ZX07HNjpVTBYr-0b6xs_7o")
+bot.run("")

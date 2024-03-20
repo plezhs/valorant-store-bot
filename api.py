@@ -131,8 +131,10 @@ async def store(username,password,region,start=0,end=20):
             z.append(finalmdata[0]['Loadout']['Subject'])
 
     for plmmr in z:
-      async with session.get(f'https://pd.{region}.a.pvp.net/mmr/v1/players/{plmmr}', headers=header) as r5:
+      async with session.get(f'https://pd.{region}.a.pvp.net/mmr/v1/players/{plmmr}/competitiveupdates', headers=header) as r5:
         mdata = json.loads(await r5.text())
+        print(mdata['Matches'])
+        
 
     async with session.get('https://pd.'+ region +'.a.pvp.net/store/v2/storefront/'+ user_id, headers=headers) as r3:
       data = json.loads(await r3.text())
@@ -253,7 +255,7 @@ async def store(username,password,region,start=0,end=20):
     a.append(mmr)
     a.append(user_id)
     a.append(gamedetail)
-    a.append()
+    # a.append()
     await session.close()
 
 def re():

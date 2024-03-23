@@ -140,8 +140,9 @@ async def store(username,password,region,start=0,end=20):
         totaltiernumber += int(tierNumber)
     async with session.get(f'https://valorant-api.com/v1/competitivetiers') as apitier:
       listtier = await apitier.json()
-      result = listtier['data'][0]['tiers'][int(totaltiernumber/10)]
-        
+      resulttier = listtier['data'][0]['tiers'][int(totaltiernumber/10)]['tierName']
+      resulttiericon = listtier['data'][0]['tiers'][int(totaltiernumber/10)]['smallIcon']
+      print(resulttier)
 
     async with session.get('https://pd.'+ region +'.a.pvp.net/store/v2/storefront/'+ user_id, headers=headers) as r3:
       data = json.loads(await r3.text())
@@ -280,3 +281,4 @@ def url3():
 def url4():
   global url4
   return url4
+

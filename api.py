@@ -127,13 +127,20 @@ async def store(username,password,region,start=0,end=20):
         for i in range(0,10):
           try:
             z.append(finalmdata[i]['Loadout']['Subject'])
+            print(finalmdata[i]['Loadout']['Subject'])
           except:
             z.append(finalmdata[0]['Loadout']['Subject'])
-
+    totaltiernumber = int()
+    # test = ["1b1d3429-87cd-5590-994b-0cfe1f5808bf","f2ca85d0-7045-513c-8b24-73c0dbbbb072","818adb8c-a5df-56d4-bfa3-92f46f513963","02e13558-0757-5764-98d8-e1f718e656c6","d6146392-eba7-58da-a199-9df38ec03bf1","c1723de8-616c-5bbb-ae48-1be7670d089d","29e404d2-d043-5efe-992a-14771051a596","10fa6185-e073-555b-87b8-6e16f19d1bcf","7936192f-a2c4-55b4-9b95-5bec8225a48f","3376c026-7610-5768-a87d-f8c6f3b7e622"]
     for plmmr in z:
-      async with session.get(f'https://pd.{region}.a.pvp.net/mmr/v1/players/{plmmr}/competitiveupdates', headers=header) as r5:
-        mdata = json.loads(await r5.text())
-        print(mdata['Matches'])
+      async with session.get(f'https://api.henrikdev.xyz/valorant/v1/by-puuid/mmr-history/{region}/{plmmr}') as r5:
+        ddid = await r5.json()
+        
+        tierNumber = ddid['data'][0]['currenttier']
+        totaltiernumber += int(tierNumber)
+    async with session.get(f'https://valorant-api.com/v1/competitivetiers') as apitier:
+      listtier = await apitier.json()
+      print()
         
 
     async with session.get('https://pd.'+ region +'.a.pvp.net/store/v2/storefront/'+ user_id, headers=headers) as r3:
@@ -273,4 +280,3 @@ def url3():
 def url4():
   global url4
   return url4
-

@@ -75,6 +75,7 @@ async def nametag(username,password):
     async with session.post('https://auth.riotgames.com/userinfo', headers=headersa, json={}) as r8:
         asd = await r8.json()
     userid = asd['acct']['game_name'] +"#"+ asd['acct']['tag_line']
+    await session.close()
   return userid
 
 async def avgtier(username,password,region):
@@ -128,6 +129,7 @@ async def avgtier(username,password,region):
       resulttier = listtier['data'][0]['tiers'][int(totaltiernumber/10)]['tierName']
       resulttiericon = listtier['data'][0]['tiers'][int(totaltiernumber/10)]['smallIcon']
       result = [resulttier,resulttiericon]
+      await session.close()
   return result
 
 async def balance(username,password,region):
@@ -153,6 +155,7 @@ async def balance(username,password,region):
     kc = wallet['Balances']['85ca954a-41f2-ce94-9b45-8ca3dd39a00d']
     rp = wallet['Balances']['e59aa87c-4cbf-517a-5983-6e81511be9b7']
     result = [vp,kc,rp]
+    await session.close()
   return result
 
 async def playercard(username,password,region):
@@ -182,6 +185,7 @@ async def playercard(username,password,region):
       playercardurl = ddd['displayIcon']
       wideArt = ddd['wideArt']
       result = [playercardurl,wideArt]
+    await session.close()
   return result
 
 async def lvl(username,password,region):
@@ -206,6 +210,7 @@ async def lvl(username,password,region):
     async with session.get(f'https://pd.{region}.a.pvp.net/account-xp/v1/players/{user_id}', headers=header) as r4:
       ddata = json.loads(await r4.text())
       mmr = ddata['Progress']['Level']
+    await session.close()
   return mmr
 
 async def store(username,password,region):

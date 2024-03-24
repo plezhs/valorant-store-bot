@@ -97,28 +97,30 @@ async def valshop(ctx,nick=None,c=None):
             # try:
             iii,ppp = getpass(nick)
             if iii != None and ppp != None:
-                await asyncio.create_task(m.store(iii,ppp,c))
+                storers = await asyncio.create_task(m.store(iii,ppp,c))
+                plcurl = await asyncio.create_task(m.playercard(iii,ppp,c))
+                nametag = await asyncio.create_task(m.nametag(iii,ppp))
                 name = ctx.message.author.name
                 name = name.title()
-                embed1 = discord.Embed(timestamp=ctx.message.created_at, color=m.re()[0][2],description="",title=f"{m.re()[5]}'s\nValorant Shop 1st Offer")
-                embed1.set_image(url=m.url1)
-                embed1.set_thumbnail(url=m.re()[4])
-                embed1.add_field(name=m.re()[0][0],value=f"Price : {m.re()[0][1]}vp", inline=False) #inline이 False라면 다음줄로 넘깁니다.
+                embed1 = discord.Embed(timestamp=ctx.message.created_at, color=storers[0][2],description="",title=f"{nametag}'s\nValorant Shop 1st Offer")
+                embed1.set_image(url=storers[5][0])
+                embed1.set_thumbnail(url=plcurl[0])
+                embed1.add_field(name=storers[0][0],value=f"Price : {storers[0][1]}vp", inline=False) #inline이 False라면 다음줄로 넘깁니다.
 
-                embed2 = discord.Embed(timestamp=ctx.message.created_at, color=m.re()[1][2],description="",title=f"{m.re()[5]}'s\nValorant Shop 2nd Offer")
-                embed2.set_image(url=m.url2)
-                embed2.set_thumbnail(url=m.re()[4])
-                embed2.add_field(name=m.re()[1][0],value=f"Price : {m.re()[1][1]}vp", inline=False) #inline이 False라면 다음줄로 넘깁니다.
+                embed2 = discord.Embed(timestamp=ctx.message.created_at, color=storers[1][2],description="",title=f"{nametag}'s\nValorant Shop 2nd Offer")
+                embed2.set_image(url=storers[5][1])
+                embed2.set_thumbnail(url=plcurl[0])
+                embed2.add_field(name=storers[1][0],value=f"Price : {storers[1][1]}vp", inline=False) #inline이 False라면 다음줄로 넘깁니다.
 
-                embed3 = discord.Embed(timestamp=ctx.message.created_at,color= m.re()[2][2],description="",title=f"{m.re()[5]}'s\nValorant Shop 3rd Offer")
-                embed3.set_image(url=m.url3)
-                embed3.set_thumbnail(url=m.re()[4])
-                embed3.add_field(name=m.re()[2][0],value=f"Price : {m.re()[2][1]}vp", inline=False) #inline이 False라면 다음줄로 넘깁니다.
+                embed3 = discord.Embed(timestamp=ctx.message.created_at, color=storers[2][2],description="",title=f"{nametag}'s\nValorant Shop 3rd Offer")
+                embed3.set_image(url=storers[5][2])
+                embed3.set_thumbnail(url=plcurl[0])
+                embed3.add_field(name=storers[2][0],value=f"Price : {storers[2][1]}vp", inline=False) #inline이 False라면 다음줄로 넘깁니다.
 
-                embed4 = discord.Embed(timestamp=ctx.message.created_at, color=m.re()[3][2],description="",title=f"{m.re()[5]}'s\nValorant Shop 4th Offer")
-                embed4.set_image(url=m.url4)
-                embed4.set_thumbnail(url=m.re()[4])
-                embed4.add_field(name=m.re()[3][0],value=f"Price : {m.re()[3][1]}vp", inline=False) #inline이 False라면 다음줄로 넘깁니다.
+                embed4 = discord.Embed(timestamp=ctx.message.created_at, color=storers[3][2],description="",title=f"{nametag}'s\nValorant Shop 4th Offer")
+                embed4.set_image(url=storers[5][3])
+                embed4.set_thumbnail(url=plcurl[0])
+                embed4.add_field(name=storers[3][0],value=f"Price : {storers[3][1]}vp", inline=False) #inline이 False라면 다음줄로 넘깁니다.
                 await ctx.send(f"""{ctx.message.author.mention}""")
                 await ctx.send(embeds = [embed1,embed2,embed3,embed4])
                 rt =str(time)[0:10]
@@ -147,38 +149,40 @@ async def nm(ctx,nick=None,c=None):
         await ctx.message.delete()
         iii,ppp = getpass(nick)
         if iii != None and ppp != None:
-            await asyncio.create_task(m.store(iii,ppp,c))
+            storers = await asyncio.create_task(m.store(iii,ppp,c))
+            plcurl = await asyncio.create_task(m.playercard(iii,ppp,c))
+            nametag = await asyncio.create_task(m.nametag(iii,ppp))
             name = ctx.message.author.name
             name = name.title()
-            embed1 = discord.Embed(timestamp=ctx.message.created_at, color=m.re()[6][0][0][4],description="",title=f"{m.re()[5]}'s\nValorant Night Market 1st Offer")
-            embed1.set_image(url=m.re()[6][1][0])
-            embed1.set_thumbnail(url=m.re()[4])
-            embed1.add_field(name=m.re()[6][0][0][0],value=f"Price : {m.re()[6][0][0][1]}vp\nBasic Price : {m.re()[6][0][0][2]}\nDiscount : {m.re()[6][0][0][3]}%", inline=False) #inline이 False라면 다음줄로 넘깁니다.
+            embed1 = discord.Embed(timestamp=ctx.message.created_at, color=storers[4][0][0][4],description="",title=f"{nametag}'s\nValorant Night Market 1st Offer")
+            embed1.set_image(url=storers[4][1][0])
+            embed1.set_thumbnail(url=plcurl[0])
+            embed1.add_field(name=storers[4][0][0][0],value=f"Price : {storers[4][0][0][1]}vp\nBasic Price : {storers[4][0][0][2]}\nDiscount : {storers[4][0][0][3]}%", inline=False) #inline이 False라면 다음줄로 넘깁니다.
 
-            embed2 = discord.Embed(timestamp=ctx.message.created_at, color=m.re()[6][0][1][4],description="",title=f"{m.re()[5]}'s\nValorant Night Market 2nd Offer")
-            embed2.set_image(url=m.re()[6][1][1])
-            embed2.set_thumbnail(url=m.re()[4])
-            embed2.add_field(name=m.re()[6][0][1][0],value=f"Price : {m.re()[6][0][1][1]}vp\nBasic Price : {m.re()[6][0][1][2]}\nDiscount : {m.re()[6][0][1][3]}%", inline=False) #inline이 False라면 다음줄로 넘깁니다.
+            embed2 = discord.Embed(timestamp=ctx.message.created_at, color=storers[4][0][1][4],description="",title=f"{nametag}'s\nValorant Night Market 2nd Offer")
+            embed2.set_image(url=storers[4][1][1])
+            embed2.set_thumbnail(url=plcurl[0])
+            embed2.add_field(name=storers[4][0][1][0],value=f"Price : {storers[4][0][1][1]}vp\nBasic Price : {storers[4][0][1][2]}\nDiscount : {storers[4][0][1][3]}%", inline=False) #inline이 False라면 다음줄로 넘깁니다.
 
-            embed3 = discord.Embed(timestamp=ctx.message.created_at, color=m.re()[6][0][2][4],description="",title=f"{m.re()[5]}'s\nValorant Night Market 3rd Offer")
-            embed3.set_image(url=m.re()[6][1][2])
-            embed3.set_thumbnail(url=m.re()[4])
-            embed3.add_field(name=m.re()[6][0][2][0],value=f"Price : {m.re()[6][0][2][1]}vp\nBasic Price : {m.re()[6][0][2][2]}\nDiscount : {m.re()[6][0][2][3]}%", inline=False) #inline이 False라면 다음줄로 넘깁니다.
+            embed3 = discord.Embed(timestamp=ctx.message.created_at, color=storers[4][0][2][4],description="",title=f"{nametag}'s\nValorant Night Market 3rd Offer")
+            embed3.set_image(url=storers[4][1][2])
+            embed3.set_thumbnail(url=plcurl[0])
+            embed3.add_field(name=storers[4][0][2][0],value=f"Price : {storers[4][0][2][1]}vp\nBasic Price : {storers[4][0][2][2]}\nDiscount : {storers[4][0][2][3]}%", inline=False) #inline이 False라면 다음줄로 넘깁니다.
 
-            embed4 = discord.Embed(timestamp=ctx.message.created_at, color=m.re()[6][0][3][4],description="",title=f"{m.re()[5]}'s\nValorant Night Market 4th Offer")
-            embed4.set_image(url=m.re()[6][1][3])
-            embed4.set_thumbnail(url=m.re()[4])
-            embed4.add_field(name=m.re()[6][0][3][0],value=f"Price : {m.re()[6][0][3][1]}vp\nBasic Price : {m.re()[6][0][3][2]}\nDiscount : {m.re()[6][0][3][3]}%", inline=False) #inline이 False라면 다음줄로 넘깁니다.
+            embed4 = discord.Embed(timestamp=ctx.message.created_at, color=storers[4][0][3][4],description="",title=f"{nametag}'s\nValorant Night Market 4th Offer")
+            embed4.set_image(url=storers[4][1][3])
+            embed4.set_thumbnail(url=plcurl[0])
+            embed4.add_field(name=storers[4][0][3][0],value=f"Price : {storers[4][0][3][1]}vp\nBasic Price : {storers[4][0][3][2]}\nDiscount : {storers[4][0][3][3]}%", inline=False) #inline이 False라면 다음줄로 넘깁니다.
 
-            embed5 = discord.Embed(timestamp=ctx.message.created_at, color=m.re()[6][0][4][4],description="",title=f"{m.re()[5]}'s\nValorant Night Market 5th Offer")
-            embed5.set_image(url=m.re()[6][1][4])
-            embed5.set_thumbnail(url=m.re()[4])
-            embed5.add_field(name=m.re()[6][0][4][0],value=f"Price : {m.re()[6][0][4][1]}vp\nBasic Price : {m.re()[6][0][4][2]}\nDiscount : {m.re()[6][0][4][3]}%", inline=False) #inline이 False라면 다음줄로 넘깁니다.
+            embed5 = discord.Embed(timestamp=ctx.message.created_at, color=storers[4][0][4][4],description="",title=f"{nametag}'s\nValorant Night Market 5th Offer")
+            embed5.set_image(url=storers[4][1][4])
+            embed5.set_thumbnail(url=plcurl[0])
+            embed5.add_field(name=storers[4][0][4][0],value=f"Price : {storers[4][0][4][1]}vp\nBasic Price : {storers[4][0][4][2]}\nDiscount : {storers[4][0][4][3]}%", inline=False) #inline이 False라면 다음줄로 넘깁니다.
 
-            embed6 = discord.Embed(timestamp=ctx.message.created_at, color=m.re()[6][0][5][4],description="",title=f"{m.re()[5]}'s\nValorant Night Market 6th Offer")
-            embed6.set_image(url=m.re()[6][1][5])
-            embed6.set_thumbnail(url=m.re()[4])
-            embed6.add_field(name=m.re()[6][0][5][0],value=f"Price : {m.re()[6][0][5][1]}vp\nBasic Price : {m.re()[6][0][5][2]}\nDiscount : {m.re()[6][0][5][3]}%", inline=False) #inline이 False라면 다음줄로 넘깁니다.
+            embed6 = discord.Embed(timestamp=ctx.message.created_at, color=storers[4][0][5][4],description="",title=f"{nametag}'s\nValorant Night Market 6th Offer")
+            embed6.set_image(url=storers[4][1][5])
+            embed6.set_thumbnail(url=plcurl[0])
+            embed6.add_field(name=storers[4][0][5][0],value=f"Price : {storers[4][0][5][1]}vp\nBasic Price : {storers[4][0][5][2]}\nDiscount : {storers[4][0][5][3]}%", inline=False) #inline이 False라면 다음줄로 넘깁니다.
             await ctx.send(f"""{ctx.message.author.mention}""")
             await ctx.send(embeds = [embed1,embed2,embed3,embed4,embed5,embed6])
         else:
@@ -214,23 +218,25 @@ async def vp(ctx,nick=None,c=None):
         await ctx.message.delete()
         iii,ppp = getpass(nick)
         if iii != None and ppp != None:
-            await asyncio.create_task(m.store(iii,ppp,c))
+            plcurl = await asyncio.create_task(m.playercard(iii,ppp,c))
+            nametag = await asyncio.create_task(m.nametag(iii,ppp))
+            bc = await asyncio.create_task(m.balance(iii,ppp,c))
             name = ctx.message.author.name
             name = name.title()
-            embed1 = discord.Embed(timestamp=ctx.message.created_at, color=discord.Color(0xFFFFFF),description="",title=f"{m.re()[5]}'s\nValorant Points")
-            embed1.set_image(url=m.re()[8])
+            embed1 = discord.Embed(timestamp=ctx.message.created_at, color=discord.Color(0xFFFFFF),description="",title=f"{nametag}'s\nValorant Points")
+            embed1.set_image(url=plcurl[1])
             embed1.set_thumbnail(url="https://static.wikia.nocookie.net/valorant/images/9/9d/Valorant_Points.png/revision/latest?cb=20200408014952")
-            embed1.add_field(name=str(m.re()[7][0]) + "VP",value="", inline=False) #inline이 False라면 다음줄로 넘깁니다.
+            embed1.add_field(name=str(bc[0]) + "VP",value="", inline=False) #inline이 False라면 다음줄로 넘깁니다.
 
-            embed2 = discord.Embed(timestamp=ctx.message.created_at, color=discord.Color(0xFFFFFF),description="",title=f"{m.re()[5]}'s\nKingdom Credits")
-            embed2.set_image(url=m.re()[8])
+            embed2 = discord.Embed(timestamp=ctx.message.created_at, color=discord.Color(0xFFFFFF),description="",title=f"{nametag}'s\nKingdom Credits")
+            embed2.set_image(url=plcurl[1])
             embed2.set_thumbnail(url="https://static.wikia.nocookie.net/valorant/images/9/9f/Kingdom_Credits.png/revision/latest?cb=20230608160711")
-            embed2.add_field(name=str(m.re()[7][1]) + "KC",value=f"", inline=False) #inline이 False라면 다음줄로 넘깁니다.
+            embed2.add_field(name=str(bc[1]) + "KC",value=f"", inline=False) #inline이 False라면 다음줄로 넘깁니다.
 
-            embed3 = discord.Embed(timestamp=ctx.message.created_at, color=discord.Color(0xFFFFFF),description="",title=f"{m.re()[5]}'s\nRadianite Points")
-            embed3.set_image(url=m.re()[8])
+            embed3 = discord.Embed(timestamp=ctx.message.created_at, color=discord.Color(0xFFFFFF),description="",title=f"{nametag}'s\nRadianite Points")
+            embed3.set_image(url=plcurl[1])
             embed3.set_thumbnail(url="https://static.wikia.nocookie.net/valorant/images/4/47/Radianite_Points.png/revision/latest?cb=20200408015457")
-            embed3.add_field(name=str(m.re()[7][2]) + "RP",value=f"", inline=False)
+            embed3.add_field(name=str(bc[2]) + "RP",value=f"", inline=False)
             await ctx.send(f"""{ctx.message.author.mention}""")
             await ctx.send(embeds = [embed1,embed2,embed3])
         else:
@@ -246,12 +252,15 @@ async def info(ctx,nick=None,c=None):
         iii,ppp = getpass(nick)
         if iii != None and ppp != None:
             await asyncio.create_task(m.store(iii,ppp,c))
+            plcurl = await asyncio.create_task(m.playercard(iii,ppp,c))
+            nametag = await asyncio.create_task(m.nametag(iii,ppp))
+            lvl = await asyncio.create_task(m.lvl(iii,ppp,c))
             name = ctx.message.author.name
             name = name.title()
-            embed1 = discord.Embed(timestamp=ctx.message.created_at, color=discord.Color(0xFFFFFF),description="",title=f"{m.re()[5]}'s\nInformation")
-            embed1.set_image(url=m.re()[8])
-            embed1.set_thumbnail(url=m.re()[4])
-            embed1.add_field(name=f"Level",value=f"{m.re()[9]}", inline=False)
+            embed1 = discord.Embed(timestamp=ctx.message.created_at, color=discord.Color(0xFFFFFF),description="",title=f"{nametag}'s\nInformation")
+            embed1.set_image(plcurl[1])
+            embed1.set_thumbnail(plcurl[0])
+            embed1.add_field(name=f"Level",value=f"{lvl}", inline=False)
             await ctx.send(f"""{ctx.message.author.mention}""")
             await ctx.send(embeds = [embed1])
         else:
@@ -265,13 +274,15 @@ async def 평균티어(ctx,nick=None,c=None):
         await ctx.message.delete()
         iii,ppp = getpass(nick)
         if iii != None and ppp != None:
-            await asyncio.create_task(m.store(iii,ppp,c))
+            tier = await asyncio.create_task(m.avgtier(iii,ppp,c))
+            plcurl = await asyncio.create_task(m.playercard(iii,ppp,c))
+            nametag = await asyncio.create_task(m.nametag(iii,ppp))
             name = ctx.message.author.name
             name = name.title()
-            embed1 = discord.Embed(timestamp=ctx.message.created_at, color=discord.Color(0xFFFFFF),description="",title=f"{m.re()[5]}의 현재게임의 평균티어")
-            embed1.set_image(url=m.re()[8])
-            embed1.set_thumbnail(url=m.re()[4])
-            embed1.add_field(name=f"평균티어",value=f"{m.re()[12]}", inline=False)
+            embed1 = discord.Embed(timestamp=ctx.message.created_at, color=discord.Color(0xFFFFFF),description="",title=f"{nametag}의 현재게임의 평균티어")
+            embed1.set_image(url=plcurl[1])
+            embed1.set_thumbnail(url=tier[1])
+            embed1.add_field(name=f"평균티어",value=f"{tier[0]}", inline=False)
             await ctx.send(f"""{ctx.message.author.mention}""")
             await ctx.send(embeds = [embed1])
         else:

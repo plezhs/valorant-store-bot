@@ -55,10 +55,8 @@ async def Auth(username,password):
         a="Accounts with MultiFactor enabled are not supported at this time."
     return auth,build
 
-async def nametag(username,password):
-  if username != None and password != None:
-
-    auth,bulid = await Auth(username,password)
+async def nametag(auth):
+  if auth != None:
     
     token_type = auth.token_type
     access_token = auth.access_token
@@ -78,10 +76,9 @@ async def nametag(username,password):
     await session.close()
   return userid
 
-async def avgtier(username,password,region):
+async def avgtier(auth,region):
 
-  if username != None and password != None:
-    auth,bulid = await Auth(username,password)
+  if auth != None:
     
     token_type = auth.token_type
     access_token = auth.access_token
@@ -132,9 +129,8 @@ async def avgtier(username,password,region):
       await session.close()
   return result
 
-async def balance(username,password,region):
-  if username != None and password != None:
-    auth,bulid = await Auth(username,password)
+async def balance(auth,region):
+  if auth != None :
     
     token_type = auth.token_type
     access_token = auth.access_token
@@ -158,9 +154,8 @@ async def balance(username,password,region):
     await session.close()
   return result
 
-async def playercard(username,password,region):
-  if username != None and password != None:
-    auth,bulid = await Auth(username,password)
+async def playercard(auth,region):
+  if auth != None :
     
     token_type = auth.token_type
     access_token = auth.access_token
@@ -188,9 +183,8 @@ async def playercard(username,password,region):
     await session.close()
   return result
 
-async def lvl(username,password,region):
-  if username != None and password != None:
-    auth,bulid = await Auth(username,password)
+async def lvl(auth,build,region):
+  if auth != None and build != None:
     
     token_type = auth.token_type
     access_token = auth.access_token
@@ -213,10 +207,8 @@ async def lvl(username,password,region):
     await session.close()
   return mmr
 
-async def store(username,password,region):
-  if username != None and password != None:
-    auth,bulid = await Auth(username,password)
-    
+async def store(auth,region):
+  if auth != None:
     token_type = auth.token_type
     access_token = auth.access_token
     entitlements_token = auth.entitlements_token
@@ -346,4 +338,3 @@ async def store(username,password,region):
     a.append([url1,url2,url3,url4])
     await session.close()
   return a
-

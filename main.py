@@ -97,9 +97,10 @@ async def valshop(ctx,nick=None,c=None):
             # try:
             iii,ppp = getpass(nick)
             if iii != None and ppp != None:
-                storers = await asyncio.create_task(m.store(iii,ppp,c))
-                plcurl = await asyncio.create_task(m.playercard(iii,ppp,c))
-                nametag = await asyncio.create_task(m.nametag(iii,ppp))
+                auth,bulid = await asyncio.create_task(m.Auth(iii,ppp))
+                storers = await asyncio.create_task(m.store(auth,c))
+                plcurl = await asyncio.create_task(m.playercard(auth,c))
+                nametag = await asyncio.create_task(m.nametag(auth))
                 name = ctx.message.author.name
                 name = name.title()
                 embed1 = discord.Embed(timestamp=ctx.message.created_at, color=storers[0][2],description="",title=f"{nametag}'s\nValorant Shop 1st Offer")
@@ -149,9 +150,10 @@ async def nm(ctx,nick=None,c=None):
         await ctx.message.delete()
         iii,ppp = getpass(nick)
         if iii != None and ppp != None:
-            storers = await asyncio.create_task(m.store(iii,ppp,c))
-            plcurl = await asyncio.create_task(m.playercard(iii,ppp,c))
-            nametag = await asyncio.create_task(m.nametag(iii,ppp))
+            auth,bulid = await asyncio.create_task(m.Auth(iii,ppp))
+            storers = await asyncio.create_task(m.store(auth,c))
+            plcurl = await asyncio.create_task(m.playercard(auth,c))
+            nametag = await asyncio.create_task(m.nametag(auth))
             name = ctx.message.author.name
             name = name.title()
             embed1 = discord.Embed(timestamp=ctx.message.created_at, color=storers[4][0][0][4],description="",title=f"{nametag}'s\nValorant Night Market 1st Offer")
@@ -218,9 +220,10 @@ async def vp(ctx,nick=None,c=None):
         await ctx.message.delete()
         iii,ppp = getpass(nick)
         if iii != None and ppp != None:
-            plcurl = await asyncio.create_task(m.playercard(iii,ppp,c))
-            nametag = await asyncio.create_task(m.nametag(iii,ppp))
-            bc = await asyncio.create_task(m.balance(iii,ppp,c))
+            auth,bulid = await asyncio.create_task(m.Auth(iii,ppp))
+            plcurl = await asyncio.create_task(m.playercard(auth,c))
+            nametag = await asyncio.create_task(m.nametag(auth))
+            bc = await asyncio.create_task(m.balance(auth,c))
             name = ctx.message.author.name
             name = name.title()
             embed1 = discord.Embed(timestamp=ctx.message.created_at, color=discord.Color(0xFFFFFF),description="",title=f"{nametag}'s\nValorant Points")
@@ -251,10 +254,10 @@ async def info(ctx,nick=None,c=None):
         await ctx.message.delete()
         iii,ppp = getpass(nick)
         if iii != None and ppp != None:
-            await asyncio.create_task(m.store(iii,ppp,c))
-            plcurl = await asyncio.create_task(m.playercard(iii,ppp,c))
-            nametag = await asyncio.create_task(m.nametag(iii,ppp))
-            lvl = await asyncio.create_task(m.lvl(iii,ppp,c))
+            auth,bulid = await asyncio.create_task(m.Auth(iii,ppp))
+            plcurl = await asyncio.create_task(m.playercard(auth,c))
+            nametag = await asyncio.create_task(m.nametag(auth))
+            lvl = await asyncio.create_task(m.lvl(auth,bulid,c))
             name = ctx.message.author.name
             name = name.title()
             embed1 = discord.Embed(timestamp=ctx.message.created_at, color=discord.Color(0xFFFFFF),description="",title=f"{nametag}'s\nInformation")
@@ -274,9 +277,10 @@ async def 평균티어(ctx,nick=None,c=None):
         await ctx.message.delete()
         iii,ppp = getpass(nick)
         if iii != None and ppp != None:
-            tier = await asyncio.create_task(m.avgtier(iii,ppp,c))
-            plcurl = await asyncio.create_task(m.playercard(iii,ppp,c))
-            nametag = await asyncio.create_task(m.nametag(iii,ppp))
+            auth,bulid = await asyncio.create_task(m.Auth(iii,ppp))
+            tier = await asyncio.create_task(m.avgtier(auth,c))
+            plcurl = await asyncio.create_task(m.playercard(auth,c))
+            nametag = await asyncio.create_task(m.nametag(auth))
             name = ctx.message.author.name
             name = name.title()
             embed1 = discord.Embed(timestamp=ctx.message.created_at, color=discord.Color(0xFFFFFF),description="",title=f"{nametag}의 현재게임의 평균티어")

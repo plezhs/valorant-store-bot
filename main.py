@@ -256,13 +256,14 @@ async def info(ctx,nick=None,c=None):
         if iii != None and ppp != None:
             auth,bulid = await asyncio.create_task(m.Auth(iii,ppp))
             plcurl = await asyncio.create_task(m.playercard(auth,c))
+            print(plcurl)
             nametag = await asyncio.create_task(m.nametag(auth))
             lvl = await asyncio.create_task(m.lvl(auth,bulid,c))
             name = ctx.message.author.name
             name = name.title()
             embed1 = discord.Embed(timestamp=ctx.message.created_at, color=discord.Color(0xFFFFFF),description="",title=f"{nametag}'s\nInformation")
-            embed1.set_image(plcurl[1])
-            embed1.set_thumbnail(plcurl[0])
+            embed1.set_image(url=plcurl[1])
+            embed1.set_thumbnail(url=plcurl[0])
             embed1.add_field(name=f"Level",value=f"{lvl}", inline=False)
             await ctx.send(f"""{ctx.message.author.mention}""")
             await ctx.send(embeds = [embed1])

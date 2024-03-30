@@ -198,7 +198,7 @@ async def lvl(auth,build,region):
     'X-Riot-Entitlements-JWT' : entitlements_token,
     'Authorization': 'Bearer '+ access_token,
     'X-Riot-ClientPlatform': 'ew0KCSJwbGF0Zm9ybVR5cGUiOiAiUEMiLA0KCSJwbGF0Zm9ybU9TIjogIldpbmRvd3MiLA0KCSJwbGF0Zm9ybU9TVmVyc2lvbiI6ICIxMC4wLjE5MDQyLjEuMjU2LjY0Yml0IiwNCgkicGxhdGZvcm1DaGlwc2V0IjogIlVua25vd24iDQp9',
-    'X-Riot-ClientVersion': bulid['data']['riotClientVersion']
+    'X-Riot-ClientVersion': build['data']['riotClientVersion']
     }
 
     async with session.get(f'https://pd.{region}.a.pvp.net/account-xp/v1/players/{user_id}', headers=header) as r4:

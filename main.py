@@ -134,6 +134,8 @@ async def valshop(ctx,nick=None,c=None):
                 #         f.write(f"[{time}] {ctx.message.author} issued problem : {m.re()}. Issued Server : {ctx.message.guild}. Issued Server ID : {ctx.message.guild.id}\n")
             else:
                 await ctx.send(f"{ctx.message.author.mention}\n현재 이 닉네임으로 등록된 계정이 없습니다.")
+                with open(f'{rt}.log.txt', 'a',encoding='UTF-8') as f:
+                    f.write(f"[{time}] [{ctx.message.author}] There wasn't {nametag}'s account.'\n")
         else:
             await ctx.send(f"{ctx.message.author.mention}\nRegion ERROR")
             sdfs="Region ERROR"
@@ -189,6 +191,8 @@ async def nm(ctx,nick=None,c=None):
             await ctx.send(embeds = [embed1,embed2,embed3,embed4,embed5,embed6])
         else:
             await ctx.send(f"{ctx.message.author.mention}\n현재 이 닉네임으로 등록된 계정이 없습니다.")
+            with open(f'{rt}.log.txt', 'a',encoding='UTF-8') as f:
+                    f.write(f"[{time}] [{ctx.message.author}] There wasn't {nametag}'s account.'\n")
 
 
 @bot.command()
@@ -242,8 +246,13 @@ async def vp(ctx,nick=None,c=None):
             embed3.add_field(name=str(bc[2]) + "RP",value=f"", inline=False)
             await ctx.send(f"""{ctx.message.author.mention}""")
             await ctx.send(embeds = [embed1,embed2,embed3])
+            with open(f'{rt}.log.txt', 'a',encoding='UTF-8') as f:
+                    f.write(f"[{time}] {ctx.message.author} checked {nametag}'s balances'\n")
         else:
             await ctx.send(f"{ctx.message.author.mention}\n현재 이 닉네임으로 등록된 계정이 없습니다.")
+            
+            with open(f'{rt}.log.txt', 'a',encoding='UTF-8') as f:
+                    f.write(f"[{time}] [{ctx.message.author}] There wasn't {nametag}'s account.'\n")
 
 @bot.command()
 async def info(ctx,nick=None,c=None):
@@ -267,8 +276,12 @@ async def info(ctx,nick=None,c=None):
             embed1.add_field(name=f"Level",value=f"{lvl}", inline=False)
             await ctx.send(f"""{ctx.message.author.mention}""")
             await ctx.send(embeds = [embed1])
+            with open(f'{rt}.log.txt', 'a',encoding='UTF-8') as f:
+                    f.write(f"[{time}] {ctx.message.author} checked {nametag}'s account info.'\n")
         else:
             await ctx.send(f"{ctx.message.author.mention}\n현재 이 닉네임으로 등록된 계정이 없습니다.")
+            with open(f'{rt}.log.txt', 'a',encoding='UTF-8') as f:
+                    f.write(f"[{time}] [{ctx.message.author}] There wasn't {nametag}'s account.'\n")
 @bot.command()
 async def 평균티어(ctx,nick=None,c=None):
     if nick ==None or c == None:
@@ -292,6 +305,8 @@ async def 평균티어(ctx,nick=None,c=None):
             await ctx.send(embeds = [embed1])
         else:
             await ctx.send(f"{ctx.message.author.mention}\n현재 이 닉네임으로 등록된 계정이 없습니다.")
+            with open(f'{rt}.log.txt', 'a',encoding='UTF-8') as f:
+                    f.write(f"[{time}] [{ctx.message.author}] There wasn't {nametag}'s account.'\n")
 
 @bot.event
 async def on_message(msg):

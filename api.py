@@ -76,9 +76,8 @@ async def nametag(auth):
     await session.close()
   return userid
 
-async def avgtier(auth,region):
-
-  if auth != None:
+async def avgtier(auth,build,region):
+  if auth != None and build != None:
     
     token_type = auth.token_type
     access_token = auth.access_token
@@ -91,6 +90,8 @@ async def avgtier(auth,region):
     headers = {
     'X-Riot-Entitlements-JWT' : entitlements_token,
     'Authorization': 'Bearer '+ access_token,
+    'X-Riot-ClientPlatform': 'ew0KCSJwbGF0Zm9ybVR5cGUiOiAiUEMiLA0KCSJwbGF0Zm9ybU9TIjogIldpbmRvd3MiLA0KCSJwbGF0Zm9ybU9TVmVyc2lvbiI6ICIxMC4wLjE5MDQyLjEuMjU2LjY0Yml0IiwNCgkicGxhdGZvcm1DaGlwc2V0IjogIlVua25vd24iDQp9',
+    'X-Riot-ClientVersion': build['data']['riotClientVersion']
     }
 
     async with session.get(f'https://glz-{region}-1.{region}.a.pvp.net/core-game/v1/players/{user_id}',headers = headers) as rier:
@@ -129,8 +130,8 @@ async def avgtier(auth,region):
       await session.close()
   return result
 
-async def balance(auth,region):
-  if auth != None :
+async def balance(auth,build,region):
+  if auth != None and build != None:
     
     token_type = auth.token_type
     access_token = auth.access_token
@@ -143,6 +144,8 @@ async def balance(auth,region):
     headers = {
     'X-Riot-Entitlements-JWT' : entitlements_token,
     'Authorization': 'Bearer '+ access_token,
+    'X-Riot-ClientPlatform': 'ew0KCSJwbGF0Zm9ybVR5cGUiOiAiUEMiLA0KCSJwbGF0Zm9ybU9TIjogIldpbmRvd3MiLA0KCSJwbGF0Zm9ybU9TVmVyc2lvbiI6ICIxMC4wLjE5MDQyLjEuMjU2LjY0Yml0IiwNCgkicGxhdGZvcm1DaGlwc2V0IjogIlVua25vd24iDQp9',
+    'X-Riot-ClientVersion': build['data']['riotClientVersion']
     }
 
     async with session.get(f'https://pd.{region}.a.pvp.net/store/v1/wallet/{user_id}', headers=headers) as r7:
@@ -154,8 +157,8 @@ async def balance(auth,region):
     await session.close()
   return result
 
-async def playercard(auth,region):
-  if auth != None :
+async def playercard(auth,build,region):
+  if auth != None and build != None:
     
     token_type = auth.token_type
     access_token = auth.access_token
@@ -168,6 +171,8 @@ async def playercard(auth,region):
     headers = {
     'X-Riot-Entitlements-JWT' : entitlements_token,
     'Authorization': 'Bearer '+ access_token,
+    'X-Riot-ClientPlatform': 'ew0KCSJwbGF0Zm9ybVR5cGUiOiAiUEMiLA0KCSJwbGF0Zm9ybU9TIjogIldpbmRvd3MiLA0KCSJwbGF0Zm9ybU9TVmVyc2lvbiI6ICIxMC4wLjE5MDQyLjEuMjU2LjY0Yml0IiwNCgkicGxhdGZvcm1DaGlwc2V0IjogIlVua25vd24iDQp9',
+    'X-Riot-ClientVersion': build['data']['riotClientVersion']
     }
 
     async with session.get(f'https://pd.{region}.a.pvp.net/personalization/v2/players/{user_id}/playerloadout', headers=headers) as r6:
@@ -207,8 +212,8 @@ async def lvl(auth,build,region):
     await session.close()
   return mmr
 
-async def store(auth,region):
-  if auth != None:
+async def store(auth,build,region):
+  if auth != None and build != None:
     token_type = auth.token_type
     access_token = auth.access_token
     entitlements_token = auth.entitlements_token
@@ -221,6 +226,13 @@ async def store(auth,region):
     headers = {
     'X-Riot-Entitlements-JWT' : entitlements_token,
     'Authorization': 'Bearer '+ access_token,
+    }
+    
+    header = {
+    'X-Riot-Entitlements-JWT' : entitlements_token,
+    'Authorization': 'Bearer '+ access_token,
+    'X-Riot-ClientPlatform': 'ew0KCSJwbGF0Zm9ybVR5cGUiOiAiUEMiLA0KCSJwbGF0Zm9ybU9TIjogIldpbmRvd3MiLA0KCSJwbGF0Zm9ybU9TVmVyc2lvbiI6ICIxMC4wLjE5MDQyLjEuMjU2LjY0Yml0IiwNCgkicGxhdGZvcm1DaGlwc2V0IjogIlVua25vd24iDQp9',
+    'X-Riot-ClientVersion': build['data']['riotClientVersion']
     }
     
     # async with session.get(f'https://pd.{region}.a.pvp.net/match-history/v1/history/{user_id}?startIndex={start}&endIndex={end}', headers=headers) as r1:
@@ -239,18 +251,19 @@ async def store(auth,region):
     #     with open(f'.//test//{k}.json','w+',encoding='UTF-8') as kk:
     #       json.dump(ddat,kk,ensure_ascii=False,indent=4)
       
-    async with session.get('https://pd.'+region+'.a.pvp.net/store/v1/offers/', headers=headers) as r2:
+    async with session.get('https://pd.'+region+'.a.pvp.net/store/v1/offers/', headers=header) as r2:
       # print(r2)
       pricedata = await r2.json()
 
-    async with session.get('https://pd.'+ region +'.a.pvp.net/store/v2/storefront/'+ user_id, headers=headers) as r3:
+    async with session.get('https://pd.'+ region +'.a.pvp.net/store/v2/storefront/'+ user_id, headers=header) as r3:
       data = json.loads(await r3.text())
-    allstore = data.get('SkinsPanelLayout')
-    singleitems = allstore["SingleItemOffers"]
-    skin1uuid = singleitems[0]
-    skin2uuid = singleitems[1]
-    skin3uuid = singleitems[2]
-    skin4uuid = singleitems[3]  
+      allstore = data.get('SkinsPanelLayout')
+      print(headers)
+      singleitems = allstore["SingleItemOffers"]
+      skin1uuid = singleitems[0]
+      skin2uuid = singleitems[1]
+      skin3uuid = singleitems[2]
+      skin4uuid = singleitems[3]  
 
     async with session.get('https://valorant-api.com/v1/weapons/skinlevels/'+ skin1uuid) as r9:
       skin1 = json.loads(await r9.text())['data']['displayName']

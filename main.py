@@ -98,8 +98,8 @@ async def valshop(ctx,nick=None,c=None):
             iii,ppp = getpass(nick)
             if iii != None and ppp != None:
                 auth,bulid = await asyncio.create_task(m.Auth(iii,ppp))
-                storers = await asyncio.create_task(m.store(auth,c))
-                plcurl = await asyncio.create_task(m.playercard(auth,c))
+                storers = await asyncio.create_task(m.store(auth,bulid,c))
+                plcurl = await asyncio.create_task(m.playercard(auth,bulid,c))
                 nametag = await asyncio.create_task(m.nametag(auth))
                 name = ctx.message.author.name
                 name = name.title()
@@ -154,7 +154,7 @@ async def nm(ctx,nick=None,c=None):
         if iii != None and ppp != None:
             auth,bulid = await asyncio.create_task(m.Auth(iii,ppp))
             storers = await asyncio.create_task(m.store(auth,c))
-            plcurl = await asyncio.create_task(m.playercard(auth,c))
+            plcurl = await asyncio.create_task(m.playercard(auth,bulid,c))
             nametag = await asyncio.create_task(m.nametag(auth))
             name = ctx.message.author.name
             name = name.title()
@@ -225,7 +225,7 @@ async def vp(ctx,nick=None,c=None):
         iii,ppp = getpass(nick)
         if iii != None and ppp != None:
             auth,bulid = await asyncio.create_task(m.Auth(iii,ppp))
-            plcurl = await asyncio.create_task(m.playercard(auth,c))
+            plcurl = await asyncio.create_task(m.playercard(auth,bulid,c))
             nametag = await asyncio.create_task(m.nametag(auth))
             bc = await asyncio.create_task(m.balance(auth,c))
             name = ctx.message.author.name
@@ -264,7 +264,7 @@ async def info(ctx,nick=None,c=None):
         iii,ppp = getpass(nick)
         if iii != None and ppp != None:
             auth,bulid = await asyncio.create_task(m.Auth(iii,ppp))
-            plcurl = await asyncio.create_task(m.playercard(auth,c))
+            plcurl = await asyncio.create_task(m.playercard(auth,bulid,c))
             print(plcurl)
             nametag = await asyncio.create_task(m.nametag(auth))
             lvl = await asyncio.create_task(m.lvl(auth,bulid,c))
@@ -293,7 +293,7 @@ async def 평균티어(ctx,nick=None,c=None):
         if iii != None and ppp != None:
             auth,bulid = await asyncio.create_task(m.Auth(iii,ppp))
             tier = await asyncio.create_task(m.avgtier(auth,c))
-            plcurl = await asyncio.create_task(m.playercard(auth,c))
+            plcurl = await asyncio.create_task(m.playercard(auth,bulid,c))
             nametag = await asyncio.create_task(m.nametag(auth))
             name = ctx.message.author.name
             name = name.title()

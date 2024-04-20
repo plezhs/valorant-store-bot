@@ -258,7 +258,6 @@ async def store(auth,build,region):
     async with session.get('https://pd.'+ region +'.a.pvp.net/store/v2/storefront/'+ user_id, headers=header) as r3:
       data = json.loads(await r3.text())
       allstore = data.get('SkinsPanelLayout')
-      print(headers)
       singleitems = allstore["SingleItemOffers"]
       skin1uuid = singleitems[0]
       skin2uuid = singleitems[1]

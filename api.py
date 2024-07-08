@@ -130,6 +130,28 @@ async def avgtier(auth,build,region):
       await session.close()
   return result
 
+async def delplay(auth,build,region):
+  if auth != None and build != None:
+    
+    token_type = auth.token_type
+    access_token = auth.access_token
+    entitlements_token = auth.entitlements_token
+    user_id = auth.user_id
+
+    conn = aiohttp.TCPConnector()
+    session = aiohttp.ClientSession(connector=conn)
+
+    headers = {
+    'X-Riot-Entitlements-JWT' : entitlements_token,
+    'Authorization': 'Bearer '+ access_token,
+    'X-Riot-ClientPlatform': 'ew0KCSJwbGF0Zm9ybVR5cGUiOiAiUEMiLA0KCSJwbGF0Zm9ybU9TIjogIldpbmRvd3MiLA0KCSJwbGF0Zm9ybU9TVmVyc2lvbiI6ICIxMC4wLjE5MDQyLjEuMjU2LjY0Yml0IiwNCgkicGxhdGZvcm1DaGlwc2V0IjogIlVua25vd24iDQp9',
+    'X-Riot-ClientVersion': build['data']['riotClientVersion']
+    }
+    async with session.delete(f'https://glz-{region}-1.{region}.a.pvp.net/parties/v1/players/{user_id}',headers=headers) as kkk:
+      hahaha = kkk
+      print(hahaha)
+    await session.close()
+
 async def balance(auth,build,region):
   if auth != None and build != None:
     
@@ -211,6 +233,126 @@ async def lvl(auth,build,region):
       mmr = ddata['Progress']['Level']
     await session.close()
   return mmr
+
+async def pick(auth,build,region):
+  if auth != None and build != None:
+    token_type = auth.token_type
+    access_token = auth.access_token
+    entitlements_token = auth.entitlements_token
+    user_id = auth.user_id
+
+    conn = aiohttp.TCPConnector()
+    session = aiohttp.ClientSession(connector=conn)
+
+    
+    headers = {
+    'X-Riot-Entitlements-JWT' : entitlements_token,
+    'Authorization': 'Bearer '+ access_token,
+    }
+    
+    header = {
+    'X-Riot-Entitlements-JWT' : entitlements_token,
+    'Authorization': 'Bearer '+ access_token,
+    'X-Riot-ClientPlatform': 'ew0KCSJwbGF0Zm9ybVR5cGUiOiAiUEMiLA0KCSJwbGF0Zm9ybU9TIjogIldpbmRvd3MiLA0KCSJwbGF0Zm9ybU9TVmVyc2lvbiI6ICIxMC4wLjE5MDQyLjEuMjU2LjY0Yml0IiwNCgkicGxhdGZvcm1DaGlwc2V0IjogIlVua25vd24iDQp9',
+    'X-Riot-ClientVersion': build['data']['riotClientVersion']
+    }
+    
+    async with session.get(f'https://glz-{region}-1.{region}.a.pvp.net/pregame/v1/players/{user_id}',headers = header) as df:
+      mid = json.loads(await df.text())
+
+    # async with session.get(f'https://glz-{region}-1.{region}}.a.pvp.net/pregame/v1/matches/{}/select/{}', headers=header) as r2:
+    #   # print(r2)
+    #   pricedata = await r2.json()
+
+async def accst(auth,build,region):
+  import humanfriendly
+  if auth != None and build != None:
+    token_type = auth.token_type
+    access_token = auth.access_token
+    entitlements_token = auth.entitlements_token
+    user_id = auth.user_id
+
+    conn = aiohttp.TCPConnector()
+    session = aiohttp.ClientSession(connector=conn)
+
+    
+    headers = {
+    'X-Riot-Entitlements-JWT' : entitlements_token,
+    'Authorization': 'Bearer '+ access_token,
+    }
+    
+    header = {
+    'X-Riot-Entitlements-JWT' : entitlements_token,
+    'Authorization': 'Bearer '+ access_token,
+    'X-Riot-ClientPlatform': 'ew0KCSJwbGF0Zm9ybVR5cGUiOiAiUEMiLA0KCSJwbGF0Zm9ybU9TIjogIldpbmRvd3MiLA0KCSJwbGF0Zm9ybU9TVmVyc2lvbiI6ICIxMC4wLjE5MDQyLjEuMjU2LjY0Yml0IiwNCgkicGxhdGZvcm1DaGlwc2V0IjogIlVua25vd24iDQp9',
+    'X-Riot-ClientVersion': build['data']['riotClientVersion']
+    }
+
+    async with session.get(f"https://pd.{region}.a.pvp.net/store/v2/storefront/{user_id}",headers = header) as acs:
+      data = json.loads(await acs.text())
+      allstore = data.get('AccessoryStore')
+      sinitem = allstore['AccessoryStoreOffers']
+
+      chtime = allstore['AccessoryStoreRemainingDurationInSeconds']
+
+      pc1 = sinitem[0]['Offer']['Cost']['85ca954a-41f2-ce94-9b45-8ca3dd39a00d']
+      pc2 = sinitem[1]['Offer']['Cost']['85ca954a-41f2-ce94-9b45-8ca3dd39a00d']
+      pc3 = sinitem[2]['Offer']['Cost']['85ca954a-41f2-ce94-9b45-8ca3dd39a00d']
+      pc4 = sinitem[3]['Offer']['Cost']['85ca954a-41f2-ce94-9b45-8ca3dd39a00d']
+
+      of1it = sinitem[0]['Offer']['Rewards'][0]['ItemID']
+      of2it = sinitem[1]['Offer']['Rewards'][0]['ItemID']
+      of3it = sinitem[2]['Offer']['Rewards'][0]['ItemID']
+      of4it = sinitem[3]['Offer']['Rewards'][0]['ItemID']
+
+      of1ty = sinitem[0]['Offer']['Rewards'][0]['ItemTypeID']
+      of2ty = sinitem[1]['Offer']['Rewards'][0]['ItemTypeID']
+      of3ty = sinitem[2]['Offer']['Rewards'][0]['ItemTypeID']
+      of4ty = sinitem[3]['Offer']['Rewards'][0]['ItemTypeID']
+
+    def acst(tuuid,iuuid):
+      if tuuid == "d5f120f8-ff8c-4aac-92ea-f2b5acbe9475": #spray
+        a1= requests.get(f"https://valorant-api.com/v1/sprays/{iuuid}")
+        skin1 =a1.json()['data']['displayName']
+        skin1url =a1.json()['data']['fullTransparentIcon']
+        return skin1,skin1url
+        
+      elif tuuid == "dd3bf334-87f3-40bd-b043-682a57a8dc3a": #gun buddies
+        a1= requests.get(f"https://valorant-api.com/v1/buddies/levels/{iuuid}")
+        skin1 =a1.json()['data']['displayName']
+        skin1url =a1.json()['data']['displayIcon']
+        return skin1,skin1url
+        
+      elif tuuid == "3f296c07-64c3-494c-923b-fe692a4fa1bd": #card
+        a1= requests.get(f"https://valorant-api.com/v1/playercards/{iuuid}")
+        skin1 =a1.json()['data']['displayName']
+        skin1url =a1.json()['data']['wideArt']
+        return skin1,skin1url
+
+      elif tuuid == "de7caa6b-adf7-4588-bbd1-143831e786c6": #titles
+        a1= requests.get(f"https://valorant-api.com/v1/playertitles/{iuuid}")
+        skin1 =a1.json()['data']['displayName']
+        skin1url =a1.json()['data']['displayIcon']
+        return skin1,skin1url
+
+      
+
+    skin1,url1 = acst(of1ty,of1it)
+    skin2,url2 = acst(of2ty,of2it)
+    skin3,url3 = acst(of3ty,of3it)
+    skin4,url4 = acst(of4ty,of4it)
+    
+    tim = datetime.timedelta(seconds=chtime)
+
+    a=list()
+    a.append([skin1,pc1]) #0
+    a.append([skin2,pc2]) #1
+    a.append([skin3,pc3]) #2
+    a.append([skin4,pc4]) #3
+    a.append([url1,url2,url3,url4]) #4
+    a.append(humanfriendly.format_timespan(tim)) #5
+    await session.close()
+  return a
 
 async def store(auth,build,region):
   if auth != None and build != None:
@@ -350,3 +492,4 @@ async def store(auth,build,region):
     a.append([url1,url2,url3,url4])
     await session.close()
   return a
+

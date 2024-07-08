@@ -21,7 +21,12 @@ import api as m
 import datetime
 import a
 
+def random_color():
+    r = random.randint(0, 255)
+    g = random.randint(0, 255)
+    b = random.randint(0, 255)
 
+    return r,g,b
 
 def wjson(id,password,nick,filename='db.json'):
     with open(filename,'r+',encoding='UTF-8') as f:
@@ -63,16 +68,6 @@ login = dict()
 
 badwords=[]
 words = []
-
-# path = "./bads"
-# file_lst = os.listdir(path)
-
-# for file in file_lst:
-#     filepath = path + '/' + file
-#     with open(filepath,'r', encoding='UTF8') as bad:
-#         badwords=bad.read().splitlines()
-#         for i in badwords:
-#             words.append(i)
     
 bot = commands.Bot(command_prefix="!",intents=discord.Intents.all())
 
@@ -85,7 +80,7 @@ def rint(min:int, max:int):
     max+=1
     return random.sample(range(min,max),1)
 
-@bot.command(aliases=["valshp","vs","valoshop","valorantshop","vlshop","ㅍ미놰ㅔ","valahop"])
+@bot.command(aliases=["valshp","vs","valoshop","valorantshop","vlshop","ㅍ미놰ㅔ","valahop","ㅍㄴ"])
 async def valshop(ctx,nick=None,c=None):
     global login
     if nick == None or c == None or getpass(nick) == (None,None):
@@ -143,7 +138,7 @@ async def valshop(ctx,nick=None,c=None):
             with open(f'{rt}.log.txt', 'a',encoding='UTF-8') as f:
                 f.write(f"[{time}] {ctx.message.author} issued problem : {sdfs}. Issued Server : {ctx.message.guild}. Issued Server ID : {ctx.message.guild.id}\n")
         
-@bot.command(aliases=["mn","ㅜㅡ"])
+@bot.command(aliases=["mn","ㅜㅡ","암"])
 async def nm(ctx,nick=None,c=None):
     if nick ==None or c == None:
         await ctx.message.delete()
@@ -153,7 +148,7 @@ async def nm(ctx,nick=None,c=None):
         iii,ppp = getpass(nick)
         if iii != None and ppp != None:
             auth,bulid = await asyncio.create_task(m.Auth(iii,ppp))
-            storers = await asyncio.create_task(m.store(auth,c))
+            storers = await asyncio.create_task(m.store(auth,bulid,c))
             plcurl = await asyncio.create_task(m.playercard(auth,bulid,c))
             nametag = await asyncio.create_task(m.nametag(auth))
             name = ctx.message.author.name
@@ -215,7 +210,7 @@ async def set(ctx,ID=None,Password=None,nickname=None):
                 with open(f'{re}.log.txt', 'a',encoding='UTF-8') as f:
                     f.write(f"[{time}] {ctx.message.author} failed register account with {nickname} nickname.'\n")
 
-@bot.command(aliases=["Balances","balances","Bl","bl","bc"])
+@bot.command(aliases=["Balances","balances","Bl","bl","bc","rp"])
 async def vp(ctx,nick=None,c=None):
     if nick ==None or c == None:
         await ctx.message.delete()
@@ -227,7 +222,7 @@ async def vp(ctx,nick=None,c=None):
             auth,bulid = await asyncio.create_task(m.Auth(iii,ppp))
             plcurl = await asyncio.create_task(m.playercard(auth,bulid,c))
             nametag = await asyncio.create_task(m.nametag(auth))
-            bc = await asyncio.create_task(m.balance(auth,c))
+            bc = await asyncio.create_task(m.balance(auth,bulid,c))
             name = ctx.message.author.name
             name = name.title()
             embed1 = discord.Embed(timestamp=ctx.message.created_at, color=discord.Color(0xFFFFFF),description="",title=f"{nametag}'s\nValorant Points")
@@ -265,7 +260,6 @@ async def info(ctx,nick=None,c=None):
         if iii != None and ppp != None:
             auth,bulid = await asyncio.create_task(m.Auth(iii,ppp))
             plcurl = await asyncio.create_task(m.playercard(auth,bulid,c))
-            print(plcurl)
             nametag = await asyncio.create_task(m.nametag(auth))
             lvl = await asyncio.create_task(m.lvl(auth,bulid,c))
             name = ctx.message.author.name
@@ -292,7 +286,7 @@ async def 평균티어(ctx,nick=None,c=None):
         iii,ppp = getpass(nick)
         if iii != None and ppp != None:
             auth,bulid = await asyncio.create_task(m.Auth(iii,ppp))
-            tier = await asyncio.create_task(m.avgtier(auth,c))
+            tier = await asyncio.create_task(m.avgtier(auth,bulid,c))
             plcurl = await asyncio.create_task(m.playercard(auth,bulid,c))
             nametag = await asyncio.create_task(m.nametag(auth))
             name = ctx.message.author.name
@@ -307,6 +301,76 @@ async def 평균티어(ctx,nick=None,c=None):
             await ctx.send(f"{ctx.message.author.mention}\n현재 이 닉네임으로 등록된 계정이 없습니다.")
             with open(f'{rt}.log.txt', 'a',encoding='UTF-8') as f:
                     f.write(f"[{time}] [{ctx.message.author}] There wasn't {nametag}'s account.'\n")
+
+# @bot.command()
+# async def 픽(ctx,nick=None,c=None):
+#     if nick ==None or c == None:
+#         await ctx.message.delete()
+#         await ctx.send(f"{ctx.message.author.mention} 사용법 : !info [NickName] [Your Region: na - North America, latam - Latin America, br -	Brazil, eu - Europe, ap - Asia Pacific, kr - Korea]")
+#     else:
+#         await ctx.message.delete()
+#         iii,ppp = getpass(nick)
+#         if iii != None and ppp != None:
+#             auth,bulid = await asyncio.create_task(m.Auth(iii,ppp))
+#             plcurl = await asyncio.create_task(m.playercard(auth,bulid,c))
+#             nametag = await asyncio.create_task(m.nametag(auth))
+#             lvl = await asyncio.create_task(m.lvl(auth,bulid,c))
+#             embed1 = discord.Embed(timestamp=ctx.message.created_at,color=discord.Color(0xFFFFFF),description="",title="")
+#             embed1.set_thumbnail(url=plcurl[0])
+#             embed1.set_image(url=plcurl[1])
+#         else:
+#             await ctx.send(f"{ctx.message.author.mention}\n현재 이 닉네임으로 등록된 계정이 없습니다.")
+#             with open(f'{rt}.log.txt', 'a',encoding='UTF-8') as f:
+#                     f.write(f"[{time}] [{ctx.message.author}] There wasn't {nametag}'s account.'\n")
+
+@bot.command()
+async def delpl(ctx,nick=None,c=None):
+    if nick ==None or c == None:
+        await ctx.message.delete()
+        await ctx.send(f"{ctx.message.author.mention} 사용법 : !delpl [NickName] [Your Region: na - North America, latam - Latin America, br -	Brazil, eu - Europe, ap - Asia Pacific, kr - Korea]")
+    else:
+        await ctx.message.delete()
+        iii,ppp = getpass(nick)
+        if iii != None and ppp != None:
+            auth,bulid = await asyncio.create_task(m.Auth(iii,ppp))
+            nametag = await asyncio.create_task(m.nametag(auth))
+            await ctx.send(f"{nametag} was deleted in current party.")
+
+@bot.command(aliases=["as"])
+async def AccessoryStore(ctx,nick=None,c=None):
+    if nick ==None or c == None:
+        await ctx.message.delete()
+        await ctx.send(f"{ctx.message.author.mention} 사용법 : !AccessoryStore [NickName] [Your Region: na - North America, latam - Latin America, br -	Brazil, eu - Europe, ap - Asia Pacific, kr - Korea]")
+    else:
+        await ctx.message.delete()
+        iii,ppp = getpass(nick)
+        if iii != None and ppp != None:
+            auth,bulid = await asyncio.create_task(m.Auth(iii,ppp))
+            accs = await asyncio.create_task(m.accst(auth,bulid,c))
+            plcurl = await asyncio.create_task(m.playercard(auth,bulid,c))
+            nametag = await asyncio.create_task(m.nametag(auth))
+            c1,c2,c3 = random_color()
+            embed1 = discord.Embed(timestamp=ctx.message.created_at,description=f"Time remaining until next : \n{accs[5]}",color = discord.Color.from_rgb(c1,c2,c3),title=f"{nametag}'s\nAccessary Store 1st Offer")
+            embed1.set_image(url=accs[4][0])
+            embed1.set_thumbnail(url=plcurl[0])
+            embed1.add_field(name=accs[0][0],value=f"Price : {accs[0][1]} KC", inline=False)
+
+            embed2 = discord.Embed(timestamp=ctx.message.created_at,description=f"Time remaining until next : \n{accs[5]}",color = discord.Color.from_rgb(c1,c2,c3),title=f"{nametag}'s\nAccessary Store 2st Offer")
+            embed2.set_image(url=accs[4][1])
+            embed2.set_thumbnail(url=plcurl[0])
+            embed2.add_field(name=accs[1][0],value=f"Price : {accs[1][1]} KC", inline=False)
+
+            embed3 = discord.Embed(timestamp=ctx.message.created_at,description=f"Time remaining until next : \n{accs[5]}",color = discord.Color.from_rgb(c1,c2,c3),title=f"{nametag}'s\nAccessary Store 3st Offer")
+            embed3.set_image(url=accs[4][2])
+            embed3.set_thumbnail(url=plcurl[0])
+            embed3.add_field(name=accs[2][0],value=f"Price : {accs[2][1]} KC", inline=False)
+
+            embed4 = discord.Embed(timestamp=ctx.message.created_at,description=f"Time remaining until next : \n{accs[5]}",color = discord.Color.from_rgb(c1,c2,c3),title=f"{nametag}'s\nAccessary Store 4st Offer")
+            embed4.set_image(url=accs[4][3])
+            embed4.set_thumbnail(url=plcurl[0])
+            embed4.add_field(name=accs[3][0],value=f"Price : {accs[3][1]} KC", inline=False)
+            await ctx.send(f"""{ctx.message.author.mention}""")
+            await ctx.send(embeds = [embed1,embed2,embed3,embed4])
 
 @bot.event
 async def on_message(msg):

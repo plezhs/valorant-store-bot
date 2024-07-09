@@ -54,14 +54,20 @@ def getpass(nick):
             p = None
         return id,p
 
+def logger(log):
+    time = datetime.datetime.now()
+    rt =str(time)[0:10]
+    with open(f'{rt}.log.txt','a',encoding='utf-8') as f:
+        f.write(f"[{time}]{log}\n")
+
 intents = discord.Intents.default()
 intents.guilds = True
 intents.members = True
 time = datetime.datetime.now()
 
-rt =str(time)[0:10]
-with open(f'{rt}.log.txt', 'a',encoding='UTF-8') as f:
-    f.write(f"[{time}]--------------------------------------------------\n[{time}]Bot Started\n[{time}]--------------------------------------------------\n")
+logger(f"--------------------------------------------------\n[{time}]Bot Started\n[{time}]--------------------------------------------------")
+# with open(f'{rt}.log.txt', 'a',encoding='UTF-8') as f:
+#     f.write(f"[{time}]--------------------------------------------------\n[{time}]Bot Started\n[{time}]--------------------------------------------------\n")
 
 global login
 login = dict()
@@ -119,9 +125,7 @@ async def valshop(ctx,nick=None,c=None):
                 embed4.add_field(name=storers[3][0],value=f"Price : {storers[3][1]}vp", inline=False) #inline이 False라면 다음줄로 넘깁니다.
                 await ctx.send(f"""{ctx.message.author.mention}""")
                 await ctx.send(embeds = [embed1,embed2,embed3,embed4])
-                rt =str(time)[0:10]
-                with open(f'{rt}.log.txt', 'a',encoding='UTF-8') as f:
-                    f.write(f"[{time}] {ctx.message.author} logged in Riot with 'Id : {iii}', 'Region : {c}' and checked Valorant Shop Offers. Used Server : {ctx.message.guild}. Issued Server ID : {ctx.message.guild.id}\n")
+                logger(f"{ctx.message.author} logged in Riot with 'Id : {iii}', 'Region : {c}' and checked Valorant Shop Offers. Used Server : {ctx.message.guild}. Issued Server ID : {ctx.message.guild.id}")
                 # except:
                 #     await ctx.send(f"{ctx.message.author.mention}\nYou did something wrong.\nCheck your ID or Password or Region.\nThen retry again")
                 #     rt =str(time)[0:10]
@@ -129,14 +133,11 @@ async def valshop(ctx,nick=None,c=None):
                 #         f.write(f"[{time}] {ctx.message.author} issued problem : {m.re()}. Issued Server : {ctx.message.guild}. Issued Server ID : {ctx.message.guild.id}\n")
             else:
                 await ctx.send(f"{ctx.message.author.mention}\n현재 이 닉네임으로 등록된 계정이 없습니다.")
-                with open(f'{rt}.log.txt', 'a',encoding='UTF-8') as f:
-                    f.write(f"[{time}] [{ctx.message.author}] There wasn't {nametag}'s account.'\n")
+                logger(f"{ctx.message.author} There wasn't {nametag}'s account.")
         else:
             await ctx.send(f"{ctx.message.author.mention}\nRegion ERROR")
             sdfs="Region ERROR"
-            rt =str(time)[0:10]
-            with open(f'{rt}.log.txt', 'a',encoding='UTF-8') as f:
-                f.write(f"[{time}] {ctx.message.author} issued problem : {sdfs}. Issued Server : {ctx.message.guild}. Issued Server ID : {ctx.message.guild.id}\n")
+            logger(f"{ctx.message.author} issued problem : {sdfs}. Issued Server : {ctx.message.guild}. Issued Server ID : {ctx.message.guild.id}")
         
 @bot.command(aliases=["mn","ㅜㅡ","암"])
 async def nm(ctx,nick=None,c=None):
@@ -184,10 +185,10 @@ async def nm(ctx,nick=None,c=None):
             embed6.add_field(name=storers[4][0][5][0],value=f"Price : {storers[4][0][5][1]}vp\nBasic Price : {storers[4][0][5][2]}\nDiscount : {storers[4][0][5][3]}%", inline=False) #inline이 False라면 다음줄로 넘깁니다.
             await ctx.send(f"""{ctx.message.author.mention}""")
             await ctx.send(embeds = [embed1,embed2,embed3,embed4,embed5,embed6])
+            logger(f"{ctx.message.author} logged in Riot with 'Id : {iii}', 'Region : {c}' and checked night market Offers. Used Server : {ctx.message.guild}. Issued Server ID : {ctx.message.guild.id}")
         else:
             await ctx.send(f"{ctx.message.author.mention}\n현재 이 닉네임으로 등록된 계정이 없습니다.")
-            with open(f'{rt}.log.txt', 'a',encoding='UTF-8') as f:
-                    f.write(f"[{time}] [{ctx.message.author}] There wasn't {nametag}'s account.'\n")
+            logger(f"[{ctx.message.author}] There wasn't {nametag}'s account.")
 
 
 @bot.command()
@@ -201,14 +202,10 @@ async def set(ctx,ID=None,Password=None,nickname=None):
             if(getpass(nickname) == (None,None)):
                 wjson(ID,Password,nickname)
                 await ctx.send(f"Your Account registered.\nYou can login with '{nickname}' from now on.")
-                rt =str(time)[0:10]
-                with open(f'{rt}.log.txt', 'a',encoding='UTF-8') as f:
-                    f.write(f"[{time}] {ctx.message.author} registered Riot Account with 'Id : {ID}', 'NickName : {nickname}'\n")
+                logger(f"{ctx.message.author} registered Riot Account with 'Id : {ID}', 'NickName : {nickname}")
             else:
                 await ctx.send(f"{nickname} is already registerd by someone.\nRetry with other nickname.")
-                re = str(time)[0:10]
-                with open(f'{re}.log.txt', 'a',encoding='UTF-8') as f:
-                    f.write(f"[{time}] {ctx.message.author} failed register account with {nickname} nickname.'\n")
+                logger(f"{ctx.message.author} failed register account with {nickname} nickname.")
 
 @bot.command(aliases=["Balances","balances","Bl","bl","bc","rp"])
 async def vp(ctx,nick=None,c=None):
@@ -241,13 +238,11 @@ async def vp(ctx,nick=None,c=None):
             embed3.add_field(name=str(bc[2]) + "RP",value=f"", inline=False)
             await ctx.send(f"""{ctx.message.author.mention}""")
             await ctx.send(embeds = [embed1,embed2,embed3])
-            with open(f'{rt}.log.txt', 'a',encoding='UTF-8') as f:
-                    f.write(f"[{time}] {ctx.message.author} checked {nametag}'s balances'\n")
+            logger(f"{ctx.message.author} checked {nametag}'s balances")
         else:
             await ctx.send(f"{ctx.message.author.mention}\n현재 이 닉네임으로 등록된 계정이 없습니다.")
             
-            with open(f'{rt}.log.txt', 'a',encoding='UTF-8') as f:
-                    f.write(f"[{time}] [{ctx.message.author}] There wasn't {nametag}'s account.'\n")
+            logger(f"[{ctx.message.author}] There wasn't {nametag}'s account.")
 
 @bot.command()
 async def info(ctx,nick=None,c=None):
@@ -270,12 +265,10 @@ async def info(ctx,nick=None,c=None):
             embed1.add_field(name=f"Level",value=f"{lvl}", inline=False)
             await ctx.send(f"""{ctx.message.author.mention}""")
             await ctx.send(embeds = [embed1])
-            with open(f'{rt}.log.txt', 'a',encoding='UTF-8') as f:
-                    f.write(f"[{time}] {ctx.message.author} checked {nametag}'s account info.'\n")
+            logger(f"{ctx.message.author} checked {nametag}'s account info.")
         else:
             await ctx.send(f"{ctx.message.author.mention}\n현재 이 닉네임으로 등록된 계정이 없습니다.")
-            with open(f'{rt}.log.txt', 'a',encoding='UTF-8') as f:
-                    f.write(f"[{time}] [{ctx.message.author}] There wasn't {nametag}'s account.'\n")
+            logger(f"[{ctx.message.author}] There wasn't {nametag}'s account.")
 @bot.command()
 async def 평균티어(ctx,nick=None,c=None):
     if nick ==None or c == None:
@@ -297,10 +290,10 @@ async def 평균티어(ctx,nick=None,c=None):
             embed1.add_field(name=f"평균티어",value=f"{tier[0]}", inline=False)
             await ctx.send(f"""{ctx.message.author.mention}""")
             await ctx.send(embeds = [embed1])
+            logger(f"{ctx.message.author} checked current games's average tier.")
         else:
             await ctx.send(f"{ctx.message.author.mention}\n현재 이 닉네임으로 등록된 계정이 없습니다.")
-            with open(f'{rt}.log.txt', 'a',encoding='UTF-8') as f:
-                    f.write(f"[{time}] [{ctx.message.author}] There wasn't {nametag}'s account.'\n")
+            logger(f"[{ctx.message.author}] There wasn't {nametag}'s account.")
 
 # @bot.command()
 # async def 픽(ctx,nick=None,c=None):
@@ -335,6 +328,10 @@ async def delpl(ctx,nick=None,c=None):
             auth,bulid = await asyncio.create_task(m.Auth(iii,ppp))
             nametag = await asyncio.create_task(m.nametag(auth))
             await ctx.send(f"{nametag} was deleted in current party.")
+            logger(f"{ctx.message.author} deleted {nick} from {nick}'s party")
+        else:
+            await ctx.send(f"{ctx.message.author.mention}\n현재 이 닉네임으로 등록된 계정이 없습니다.")
+            logger(f"[{ctx.message.author}] There wasn't {nametag}'s account.")
 
 @bot.command(aliases=["as"])
 async def AccessoryStore(ctx,nick=None,c=None):
@@ -371,6 +368,9 @@ async def AccessoryStore(ctx,nick=None,c=None):
             embed4.add_field(name=accs[3][0],value=f"Price : {accs[3][1]} KC", inline=False)
             await ctx.send(f"""{ctx.message.author.mention}""")
             await ctx.send(embeds = [embed1,embed2,embed3,embed4])
+        else:
+            await ctx.send(f"{ctx.message.author.mention}\n현재 이 닉네임으로 등록된 계정이 없습니다.")
+            logger(f"[{ctx.message.author}] There wasn't {nametag}'s account.")
 
 @bot.event
 async def on_message(msg):

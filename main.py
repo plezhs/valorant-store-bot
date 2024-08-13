@@ -327,6 +327,7 @@ async def delpl(ctx,nick=None,c=None):
         if iii != None and ppp != None:
             auth,bulid = await asyncio.create_task(m.Auth(iii,ppp))
             nametag = await asyncio.create_task(m.nametag(auth))
+            await asyncio.create_task(m.delplay(auth,bulid,c))
             await ctx.send(f"{nametag} was deleted in current party.")
             logger(f"{ctx.message.author} deleted {nick} from {nick}'s party")
         else:
@@ -370,7 +371,7 @@ async def AccessoryStore(ctx,nick=None,c=None):
             await ctx.send(embeds = [embed1,embed2,embed3,embed4])
         else:
             await ctx.send(f"{ctx.message.author.mention}\n현재 이 닉네임으로 등록된 계정이 없습니다.")
-            logger(f"[{ctx.message.author}] There wasn't {nametag}'s account.")
+            logger(f"[{ctx.message.author}] There wasn't {nametag}'s account.") 
 
 @bot.event
 async def on_message(msg):

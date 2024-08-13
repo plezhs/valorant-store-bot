@@ -1,6 +1,23 @@
-api_key = "RGAPI-62c1d244-a9ea-4ef0-ac45-61866e05d062"
-api_url1 = "https://kr.api.riotgames.com/val/status/v1/platform-data"
-
+from league_client.constants import LEAGUE_CLIENT_AUTH_PARAMS
+from league_client.constants import RIOT_CLIENT_AUTH_PARAMS
+from league_client.rso.auth import get_ledge_token
+from league_client.rso.auth import get_login_queue_token
+from league_client.rso.auth import login_using_credentials
+from league_client.rso.auth import login_using_ssid
+from league_client.rso.auth import process_access_token
+from league_client.rso.constants import DISCOVEROUS_SERVICE_LOCATION
+from league_client.rso.constants import InventoryTypes
+from league_client.rso.constants import LEAGUE_EDGE_URL
+from league_client.rso.constants import PLAYER_PLATFORM_EDGE_URL
+from league_client.rso.auth import get_entitlements_token
+from league_client.rso.inventory import get_inventory_data
+from league_client.rso.inventory import get_inventory_data_v2
+from league_client.rso.inventory import get_inventory_token
+from league_client.rso.inventory import get_inventory_token_v2
+from league_client.rso.missions import get_missions
+from league_client.rso.rank import get_ranked_overview_token
+from league_client.rso.rank import get_rank_data
+from league_client.rso.userinfo import get_userinfo
 import aiohttp, json, requests
 import os, sys
 import asyncio
@@ -31,28 +48,50 @@ global url2
 global url3
 global url4
 
-async def Auth(username,password):
+class auth:
+  def __init__(self):
+    self.ssid = ''
+    self.access_token = ''
+    self.scope = ''
+    self.iss = ''
+    self.id_token = ''
+    self.token_type = ''
+    self.session_state = ''
+    self.expires_in = ''
+    self.entitlements_token = ''
+    self.user_id = ''
+
+async def Auth(ID,PW):
     global a
     
     build = requests.get('https://valorant-api.com/v1/version').json()
     print('Valorant Build '+build['data']['riotClientBuild'])
 
-    RiotAuth.RIOT_CLIENT_USER_AGENT = build['data']['riotClientBuild'] + '%s (Windows;10;;Professional, x64)'
+    params = RIOT_CLIENT_AUTH_PARAMS
+    (
+      ssid,
+      access_token,
+      scope,
+      iss,
+      id_token,
+      token_type,
+      session_state,
+      expires_in
+    ) = login_using_credentials(ID, PW, params)
 
-    if sys.platform == "win32":
-        asyncio.set_event_loop_policy(asyncio.WindowsSelectorEventLoopPolicy())
+    puuid, region, account_id = process_access_token(access_token)
 
-    CREDS = username,password
-
-    auth = RiotAuth()
-    try: 
-        await auth.authorize(*CREDS)
-    except auth_exceptions.RiotAuthenticationError:
-        print('Error: Auth Failed, Please check credentials and try again.')
-        a = "Error: Auth Failed, Please check credentials and try again."
-    except auth_exceptions.RiotMultifactorError:
-        print('Accounts with MultiFactor enabled are not supported at this time.')
-        a="Accounts with MultiFactor enabled are not supported at this time."
+    auth.ssid = ssid
+    auth.access_token = access_token
+    auth.scope = scope
+    auth.iss = iss
+    auth.id_token = id_token
+    auth.token_type = token_type
+    auth.session_state = session_state
+    auth.expires_in = expires_in
+    auth.entitlements_token = get_entitlements_token(access_token)
+    auth.user_id = puuid
+    
     return auth,build
 
 async def nametag(auth):
@@ -493,3 +532,20 @@ async def store(auth,build,region):
     await session.close()
   return a
 
+# async def tst(name=None,pw=None):
+#   conn = aiohttp.TCPConnector()
+#   session = aiohttp.ClientSession(connector=conn)
+
+#   body = {
+#     'client_id': "play-valorant-web-prod",
+#     'nonce' : "1",
+#     'redirect_uri': "https://playvalorant.com/opt_in",
+#     'response_type': "token id_token",
+#     'scope': "account openid"
+#   }
+
+#   async with session.get("https://auth.riotgames.com/authorize?redirect_uri=https%3A%2F%2Fplayvalorant.com%2Fopt_in&client_id=play-valorant-web-prod&response_type=token%20id_token&nonce=1&scope=account%20openid") as r9:
+#     print(r9)
+#   session.close()
+
+# asyncio.run(tst())

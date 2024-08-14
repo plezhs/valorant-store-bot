@@ -280,6 +280,7 @@ async def 평균티어(ctx,nick=None,c=None):
         ssid = getpass(nick)
         if ssid != None:
             auth,bulid = await asyncio.create_task(m.Auths(ssid))
+            tier = await asyncio.create_task(m.avgtier(auth,bulid,c))
             plcurl = await asyncio.create_task(m.playercard(auth,bulid,c))
             nametag = await asyncio.create_task(m.nametag(auth))
             name = ctx.message.author.name

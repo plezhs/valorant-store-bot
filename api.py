@@ -94,6 +94,39 @@ async def Auth(ID,PW):
     
     return auth,build
 
+async def Auths(ss):
+    global a
+    
+    build = requests.get('https://valorant-api.com/v1/version').json()
+    print('Valorant Build '+build['data']['riotClientBuild'])
+
+    params = RIOT_CLIENT_AUTH_PARAMS
+    (
+      ssid,
+      access_token,
+      scope,
+      iss,
+      id_token,
+      token_type,
+      session_state,
+      expires_in
+    ) = login_using_ssid(ss, params)
+
+    puuid, region, account_id = process_access_token(access_token)
+
+    auth.ssid = ssid
+    auth.access_token = access_token
+    auth.scope = scope
+    auth.iss = iss
+    auth.id_token = id_token
+    auth.token_type = token_type
+    auth.session_state = session_state
+    auth.expires_in = expires_in
+    auth.entitlements_token = get_entitlements_token(access_token)
+    auth.user_id = puuid
+    
+    return auth,build
+
 async def nametag(auth):
   if auth != None:
     

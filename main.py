@@ -28,15 +28,16 @@ def random_color():
 
     return r,g,b
 
-def wjson(id,password,nick,filename='db.json'):
+def wjson(ssid,nick,filename='db.json'):
     with open(filename,'r+',encoding='UTF-8') as f:
         file_data = json.load(f)
-        txt = a.encrypt(password.encode(),a.keygener(),nick)
+        txt = a.encrypt(ssid.encode(),a.keygener(),nick)
         data = {
-            f"{nick}":{
-                f"{id}":txt.decode(),
-                f"{nick}":f"{id}",
-            }
+            # f"{nick}":{
+            #     f"{id}":txt.decode(),
+            #     f"{nick}":f"{id}",
+            # }
+            f"{nick}" : f"{txt.decode()}"
         }
         file_data.update(data)
         f.seek(0)
@@ -46,13 +47,11 @@ def getpass(nick):
     with open('db.json','r',encoding='UTF-8') as f:
         data = json.load(f)
         try:
-            id = data[f'{nick}'][f'{nick}']
-            txt = data[nick][id]
+            txt = data[nick]
             p = a.decrypt(txt,nick).decode()
         except:
-            id = None
             p = None
-        return id,p
+        return p
 
 def logger(log):
     time = datetime.datetime.now()
@@ -89,16 +88,16 @@ def rint(min:int, max:int):
 @bot.command(aliases=["valshp","vs","valoshop","valorantshop","vlshop","ㅍ미놰ㅔ","valahop","ㅍㄴ"])
 async def valshop(ctx,nick=None,c=None):
     global login
-    if nick == None or c == None or getpass(nick) == (None,None):
+    if nick == None or c == None or getpass(nick) == None:
         await ctx.message.delete()
         await ctx.send(f"{ctx.message.author.mention} 사용법 : !valshop [NickName] [Your Region: na - North America, latam - Latin America, br -	Brazil, eu - Europe, ap - Asia Pacific, kr - Korea]")
     else:
         await ctx.message.delete()
         if(c in ["kr","br","na","eu","latam","ap"]):
             # try:
-            iii,ppp = getpass(nick)
-            if iii != None and ppp != None:
-                auth,bulid = await asyncio.create_task(m.Auth(iii,ppp))
+            ssid = getpass(nick)
+            if ssid != None:
+                auth,bulid = await asyncio.create_task(m.Auths(ssid))
                 storers = await asyncio.create_task(m.store(auth,bulid,c))
                 plcurl = await asyncio.create_task(m.playercard(auth,bulid,c))
                 nametag = await asyncio.create_task(m.nametag(auth))
@@ -125,7 +124,7 @@ async def valshop(ctx,nick=None,c=None):
                 embed4.add_field(name=storers[3][0],value=f"Price : {storers[3][1]}vp", inline=False) #inline이 False라면 다음줄로 넘깁니다.
                 await ctx.send(f"""{ctx.message.author.mention}""")
                 await ctx.send(embeds = [embed1,embed2,embed3,embed4])
-                logger(f"{ctx.message.author} logged in Riot with 'Id : {iii}', 'Region : {c}' and checked Valorant Shop Offers. Used Server : {ctx.message.guild}. Issued Server ID : {ctx.message.guild.id}")
+                logger(f"{ctx.message.author} logged in Riot with 'Id : {nick}', 'Region : {c}' and checked Valorant Shop Offers. Used Server : {ctx.message.guild}. Issued Server ID : {ctx.message.guild.id}")
                 # except:
                 #     await ctx.send(f"{ctx.message.author.mention}\nYou did something wrong.\nCheck your ID or Password or Region.\nThen retry again")
                 #     rt =str(time)[0:10]
@@ -146,9 +145,9 @@ async def nm(ctx,nick=None,c=None):
         await ctx.send(f"{ctx.message.author.mention} 사용법 : !nm [Riot ID] [Password] [Your Region: na - North America, latam - Latin America, br -	Brazil, eu - Europe, ap - Asia Pacific, kr - Korea]")
     else:
         await ctx.message.delete()
-        iii,ppp = getpass(nick)
-        if iii != None and ppp != None:
-            auth,bulid = await asyncio.create_task(m.Auth(iii,ppp))
+        ssid = getpass(nick)
+        if ssid != None:
+            auth,bulid = await asyncio.create_task(m.Auths(ssid))
             storers = await asyncio.create_task(m.store(auth,bulid,c))
             plcurl = await asyncio.create_task(m.playercard(auth,bulid,c))
             nametag = await asyncio.create_task(m.nametag(auth))
@@ -185,7 +184,7 @@ async def nm(ctx,nick=None,c=None):
             embed6.add_field(name=storers[4][0][5][0],value=f"Price : {storers[4][0][5][1]}vp\nBasic Price : {storers[4][0][5][2]}\nDiscount : {storers[4][0][5][3]}%", inline=False) #inline이 False라면 다음줄로 넘깁니다.
             await ctx.send(f"""{ctx.message.author.mention}""")
             await ctx.send(embeds = [embed1,embed2,embed3,embed4,embed5,embed6])
-            logger(f"{ctx.message.author} logged in Riot with 'Id : {iii}', 'Region : {c}' and checked night market Offers. Used Server : {ctx.message.guild}. Issued Server ID : {ctx.message.guild.id}")
+            logger(f"{ctx.message.author} logged in Riot with 'Id : {nick}', 'Region : {c}' and checked night market Offers. Used Server : {ctx.message.guild}. Issued Server ID : {ctx.message.guild.id}")
         else:
             await ctx.send(f"{ctx.message.author.mention}\n현재 이 닉네임으로 등록된 계정이 없습니다.")
             logger(f"[{ctx.message.author}] There wasn't {nametag}'s account.")
@@ -199,8 +198,10 @@ async def set(ctx,ID=None,Password=None,nickname=None):
         if ctx.guild:
             return
         else:
-            if(getpass(nickname) == (None,None)):
-                wjson(ID,Password,nickname)
+            if(getpass(nickname) == None):
+                auth,bulid = await asyncio.create_task(m.Auth(ID,Password))
+                ssid = auth.ssid
+                wjson(ssid,nickname)
                 await ctx.send(f"Your Account registered.\nYou can login with '{nickname}' from now on.")
                 logger(f"{ctx.message.author} registered Riot Account with 'Id : {ID}', 'NickName : {nickname}")
             else:
@@ -214,9 +215,9 @@ async def vp(ctx,nick=None,c=None):
         await ctx.send(f"{ctx.message.author.mention} 사용법 : !vp [NickName] [Your Region: na - North America, latam - Latin America, br -	Brazil, eu - Europe, ap - Asia Pacific, kr - Korea]")
     else:
         await ctx.message.delete()
-        iii,ppp = getpass(nick)
-        if iii != None and ppp != None:
-            auth,bulid = await asyncio.create_task(m.Auth(iii,ppp))
+        ssid = getpass(nick)
+        if ssid != None:
+            auth,bulid = await asyncio.create_task(m.Auths(ssid))
             plcurl = await asyncio.create_task(m.playercard(auth,bulid,c))
             nametag = await asyncio.create_task(m.nametag(auth))
             bc = await asyncio.create_task(m.balance(auth,bulid,c))
@@ -251,9 +252,9 @@ async def info(ctx,nick=None,c=None):
         await ctx.send(f"{ctx.message.author.mention} 사용법 : !info [NickName] [Your Region: na - North America, latam - Latin America, br -	Brazil, eu - Europe, ap - Asia Pacific, kr - Korea]")
     else:
         await ctx.message.delete()
-        iii,ppp = getpass(nick)
-        if iii != None and ppp != None:
-            auth,bulid = await asyncio.create_task(m.Auth(iii,ppp))
+        ssid = getpass(nick)
+        if ssid != None:
+            auth,bulid = await asyncio.create_task(m.Auths(ssid))
             plcurl = await asyncio.create_task(m.playercard(auth,bulid,c))
             nametag = await asyncio.create_task(m.nametag(auth))
             lvl = await asyncio.create_task(m.lvl(auth,bulid,c))
@@ -276,10 +277,9 @@ async def 평균티어(ctx,nick=None,c=None):
         await ctx.send(f"{ctx.message.author.mention} 사용법 : !평균티어 [NickName] [Your Region: na - North America, latam - Latin America, br -	Brazil, eu - Europe, ap - Asia Pacific, kr - Korea]")
     else:
         await ctx.message.delete()
-        iii,ppp = getpass(nick)
-        if iii != None and ppp != None:
-            auth,bulid = await asyncio.create_task(m.Auth(iii,ppp))
-            tier = await asyncio.create_task(m.avgtier(auth,bulid,c))
+        ssid = getpass(nick)
+        if ssid != None:
+            auth,bulid = await asyncio.create_task(m.Auths(ssid))
             plcurl = await asyncio.create_task(m.playercard(auth,bulid,c))
             nametag = await asyncio.create_task(m.nametag(auth))
             name = ctx.message.author.name
@@ -295,27 +295,6 @@ async def 평균티어(ctx,nick=None,c=None):
             await ctx.send(f"{ctx.message.author.mention}\n현재 이 닉네임으로 등록된 계정이 없습니다.")
             logger(f"[{ctx.message.author}] There wasn't {nametag}'s account.")
 
-# @bot.command()
-# async def 픽(ctx,nick=None,c=None):
-#     if nick ==None or c == None:
-#         await ctx.message.delete()
-#         await ctx.send(f"{ctx.message.author.mention} 사용법 : !info [NickName] [Your Region: na - North America, latam - Latin America, br -	Brazil, eu - Europe, ap - Asia Pacific, kr - Korea]")
-#     else:
-#         await ctx.message.delete()
-#         iii,ppp = getpass(nick)
-#         if iii != None and ppp != None:
-#             auth,bulid = await asyncio.create_task(m.Auth(iii,ppp))
-#             plcurl = await asyncio.create_task(m.playercard(auth,bulid,c))
-#             nametag = await asyncio.create_task(m.nametag(auth))
-#             lvl = await asyncio.create_task(m.lvl(auth,bulid,c))
-#             embed1 = discord.Embed(timestamp=ctx.message.created_at,color=discord.Color(0xFFFFFF),description="",title="")
-#             embed1.set_thumbnail(url=plcurl[0])
-#             embed1.set_image(url=plcurl[1])
-#         else:
-#             await ctx.send(f"{ctx.message.author.mention}\n현재 이 닉네임으로 등록된 계정이 없습니다.")
-#             with open(f'{rt}.log.txt', 'a',encoding='UTF-8') as f:
-#                     f.write(f"[{time}] [{ctx.message.author}] There wasn't {nametag}'s account.'\n")
-
 @bot.command()
 async def delpl(ctx,nick=None,c=None):
     if nick ==None or c == None:
@@ -323,9 +302,9 @@ async def delpl(ctx,nick=None,c=None):
         await ctx.send(f"{ctx.message.author.mention} 사용법 : !delpl [NickName] [Your Region: na - North America, latam - Latin America, br -	Brazil, eu - Europe, ap - Asia Pacific, kr - Korea]")
     else:
         await ctx.message.delete()
-        iii,ppp = getpass(nick)
-        if iii != None and ppp != None:
-            auth,bulid = await asyncio.create_task(m.Auth(iii,ppp))
+        ssid = getpass(nick)
+        if ssid != None:
+            auth,bulid = await asyncio.create_task(m.Auths(ssid))
             nametag = await asyncio.create_task(m.nametag(auth))
             await asyncio.create_task(m.delplay(auth,bulid,c))
             await ctx.send(f"{nametag} was deleted in current party.")
@@ -341,9 +320,9 @@ async def AccessoryStore(ctx,nick=None,c=None):
         await ctx.send(f"{ctx.message.author.mention} 사용법 : !AccessoryStore [NickName] [Your Region: na - North America, latam - Latin America, br -	Brazil, eu - Europe, ap - Asia Pacific, kr - Korea]")
     else:
         await ctx.message.delete()
-        iii,ppp = getpass(nick)
-        if iii != None and ppp != None:
-            auth,bulid = await asyncio.create_task(m.Auth(iii,ppp))
+        ssid = getpass(nick)
+        if ssid != None:
+            auth,bulid = await asyncio.create_task(m.Auths(ssid))
             accs = await asyncio.create_task(m.accst(auth,bulid,c))
             plcurl = await asyncio.create_task(m.playercard(auth,bulid,c))
             nametag = await asyncio.create_task(m.nametag(auth))

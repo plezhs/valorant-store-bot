@@ -1,42 +1,9 @@
-from league_client.constants import LEAGUE_CLIENT_AUTH_PARAMS
 from league_client.constants import RIOT_CLIENT_AUTH_PARAMS
-from league_client.rso.auth import get_ledge_token
-from league_client.rso.auth import get_login_queue_token
 from league_client.rso.auth import login_using_credentials
 from league_client.rso.auth import login_using_ssid
 from league_client.rso.auth import process_access_token
-from league_client.rso.constants import DISCOVEROUS_SERVICE_LOCATION
-from league_client.rso.constants import InventoryTypes
-from league_client.rso.constants import LEAGUE_EDGE_URL
-from league_client.rso.constants import PLAYER_PLATFORM_EDGE_URL
 from league_client.rso.auth import get_entitlements_token
-from league_client.rso.inventory import get_inventory_data
-from league_client.rso.inventory import get_inventory_data_v2
-from league_client.rso.inventory import get_inventory_token
-from league_client.rso.inventory import get_inventory_token_v2
-from league_client.rso.missions import get_missions
-from league_client.rso.rank import get_ranked_overview_token
-from league_client.rso.rank import get_rank_data
-from league_client.rso.userinfo import get_userinfo
 import aiohttp, json, requests
-import os, sys
-import asyncio
-from riot_auth import RiotAuth, auth_exceptions
-import base64
-from getpass import getpass
-import discord
-import random
-import asyncio
-import os
-from discord.ext import commands
-from discord.utils import get
-from hashlib import new
-from requests import session as sesh, get
-from requests.adapters import HTTPAdapter
-from ssl import PROTOCOL_TLSv1_2
-from urllib3 import PoolManager
-from collections import OrderedDict
-from re import compile
 import os
 import datetime
 

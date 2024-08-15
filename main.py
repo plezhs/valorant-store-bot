@@ -116,7 +116,7 @@ async def valshop(ctx,nick=None,c=None):
                     await ctx.send(embeds = [embed1,embed2,embed3,embed4])
                     logger(f"{ctx.message.author} logged in Riot with 'Id : {nick}', 'Region : {c}' and checked Valorant Shop Offers. Used Server : {ctx.message.guild}. Issued Server ID : {ctx.message.guild.id}")
                 except league_client.exceptions.AuthFailureError:
-                    await ctx.send("로그인에 실패 하였습니다.")
+                    await ctx.send("Login Failed.")
                     logger(f"{ctx.message.author} logged in Riot with 'ID : {nick}', but Failed.")
                 # except:
                 #     await ctx.send(f"{ctx.message.author.mention}\nYou did something wrong.\nCheck your ID or Password or Region.\nThen retry again")
@@ -180,7 +180,7 @@ async def nm(ctx,nick=None,c=None):
                 await ctx.send(embeds = [embed1,embed2,embed3,embed4,embed5,embed6])
                 logger(f"{ctx.message.author} logged in Riot with 'Id : {nick}', 'Region : {c}' and checked night market Offers. Used Server : {ctx.message.guild}. Issued Server ID : {ctx.message.guild.id}")
             except league_client.exceptions.AuthFailureError:
-                    await ctx.send("로그인에 실패 하였습니다.")
+                    await ctx.send("Login Failed.")
                     logger(f"{ctx.message.author} logged in Riot with 'ID : {nick}', but Failed.")
         else:
             await ctx.send(f"{ctx.message.author.mention}\n현재 이 닉네임으로 등록된 계정이 없습니다.")
@@ -203,7 +203,7 @@ async def set(ctx,ID=None,Password=None,nickname=None):
                     await ctx.send(f"Your Account registered.\nYou can login with '{nickname}' from now on.")
                     logger(f"{ctx.message.author} registered Riot Account with 'Id : {ID}', 'NickName : {nickname}")
                 except league_client.exceptions.AuthFailureError:
-                    await ctx.send("로그인에 실패 하였습니다.")
+                    await ctx.send("Login Failed.")
                     logger(f"{ctx.message.author} registered Riot Account with 'ID : {ID}', but Failed.")
             else:
                 await ctx.send(f"{nickname} is already registerd by someone.\nRetry with other nickname.")
@@ -243,7 +243,7 @@ async def vp(ctx,nick=None,c=None):
                 await ctx.send(embeds = [embed1,embed2,embed3])
                 logger(f"{ctx.message.author} checked {nametag}'s balances")
             except league_client.exceptions.AuthFailureError:
-                    await ctx.send("로그인에 실패 하였습니다.")
+                    await ctx.send("Login Failed.")
                     logger(f"{ctx.message.author} logged in Riot with 'ID : {nick}', but Failed.")
         else:
             await ctx.send(f"{ctx.message.author.mention}\n현재 이 닉네임으로 등록된 계정이 없습니다.")
@@ -274,7 +274,7 @@ async def info(ctx,nick=None,c=None):
                 await ctx.send(embeds = [embed1])
                 logger(f"{ctx.message.author} checked {nametag}'s account info.")
             except league_client.exceptions.AuthFailureError:
-                    await ctx.send("로그인에 실패 하였습니다.")
+                    await ctx.send("Login Failed.")
                     logger(f"{ctx.message.author} logged in Riot with 'ID : {nick}', but Failed.")
         else:
             await ctx.send(f"{ctx.message.author.mention}\n현재 이 닉네임으로 등록된 계정이 없습니다.")
@@ -303,7 +303,7 @@ async def 평균티어(ctx,nick=None,c=None):
                 await ctx.send(embeds = [embed1])
                 logger(f"{ctx.message.author} checked current games's average tier.")
             except league_client.exceptions.AuthFailureError:
-                    await ctx.send("로그인에 실패 하였습니다.")
+                    await ctx.send("Login Failed.")
                     logger(f"{ctx.message.author} logged in Riot with 'ID : {nick}', but Failed.")
         else:
             await ctx.send(f"{ctx.message.author.mention}\n현재 이 닉네임으로 등록된 계정이 없습니다.")
@@ -325,7 +325,7 @@ async def delpl(ctx,nick=None,c=None):
                 await ctx.send(f"{nametag} was deleted in current party.")
                 logger(f"{ctx.message.author} deleted {nick} from {nick}'s party")
             except league_client.exceptions.AuthFailureError:
-                    await ctx.send("로그인에 실패 하였습니다.")
+                    await ctx.send("Login Failed.")
                     logger(f"{ctx.message.author} logged in Riot with 'ID : {nick}', but Failed.")
         else:
             await ctx.send(f"{ctx.message.author.mention}\n현재 이 닉네임으로 등록된 계정이 없습니다.")
@@ -369,7 +369,7 @@ async def AccessoryStore(ctx,nick=None,c=None):
                 await ctx.send(embeds = [embed1,embed2,embed3,embed4])
                 logger(f"{ctx.message.author} logged in Riot with 'Id : {nick}', 'Region : {c}' and checked Valorant Accessory Shop Offers. Used Server : {ctx.message.guild}. Issued Server ID : {ctx.message.guild.id}")
             except league_client.exceptions.AuthFailureError:
-                    await ctx.send("로그인에 실패 하였습니다.")
+                    await ctx.send("Login Failed.")
                     logger(f"{ctx.message.author} logged in Riot with 'ID : {nick}', but Failed.")
         else:
             await ctx.send(f"{ctx.message.author.mention}\n현재 이 닉네임으로 등록된 계정이 없습니다.")
